@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaArrowRight, FaTimes, FaChevronLeft } from 'react-icons/fa';
-import { categories, paniPuriItems, momoItems, mojitoItems, friesItems } from '../data';
+import { categories, paniPuriItems, momoItems, mojitoItems, crispItems, breadOmeletteItems } from '../data';
 import { useSwipeBack } from '../utils/hooks';
 import { smartBack, openModalWithHistory } from '../utils/helpers';
 
@@ -16,7 +16,13 @@ const Features = ({ selectedCategory, handleCategoryClick, setSelectedCategory }
     openModalWithHistory('itemDetail', `#item-${item.id}`);
   };
 
-  const categoryDataMap = { 'pani-puri': paniPuriItems, 'momos': momoItems, 'mojitos': mojitoItems, 'fries': friesItems };
+  const categoryDataMap = { 
+    'pani-puri': paniPuriItems, 
+    'momos': momoItems, 
+    'mojitos': mojitoItems, 
+    'crisp-items': crispItems,
+    'bread-omelette': breadOmeletteItems 
+  };
   const currentMenuItems = selectedCategory ? categoryDataMap[selectedCategory] : [];
 
   // Listen for browser back button

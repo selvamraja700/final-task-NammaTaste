@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 
 const Hero = () => {
@@ -7,6 +7,19 @@ const Hero = () => {
   const descRef = useRef(null);
   const buttonsRef = useRef(null);
   const animationRef = useRef(null);
+  const indicatorRef = useRef(null);
+  
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => setShowScrollIndicator(window.scrollY < 100);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleScrollClick = () => {
+    window.scrollBy({ top: 350, behavior: 'smooth' });
+  };
 
   useEffect(() => {
     // GSAP Timeline for orchestrating the staggered sequence
@@ -34,6 +47,11 @@ const Hero = () => {
       "-=0.6"
     )
     .fromTo(buttonsRef.current,
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8 },
+      "-=0.6"
+    )
+    .fromTo(indicatorRef.current,
       { y: 20, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8 },
       "-=0.6"
@@ -104,6 +122,22 @@ const Hero = () => {
                 Contact Us
               </a>
             </div>
+
+            {/* Mobile Scroll Indicator */}
+            <div 
+              ref={indicatorRef}
+              className={`md:hidden flex flex-col items-center justify-center w-full mt-10 transition-opacity duration-700 cursor-pointer ${showScrollIndicator ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+              onClick={handleScrollClick}
+              aria-label="Scroll down"
+            >
+              <div className="animate-bounce text-amber-400 drop-shadow-[0_0_12px_rgba(251,191,36,0.6)]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="7 13 12 18 17 13"></polyline>
+                  <polyline points="7 6 12 11 17 6"></polyline>
+                </svg>
+              </div>
+            </div>
+
           </div>
 
         </div>

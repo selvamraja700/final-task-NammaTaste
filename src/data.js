@@ -17,46 +17,44 @@ export const heroStats = [
 const tempImageUrl = 'https://ik.imagekit.io/Selvamraj700/assets/paristower.jpg?updatedAt=1738081264822';
 
 export const paniPuriItems = [
-  { id: 'pp1', name: 'Classic Pani Puri', description: 'Crispy puris filled with tangy tamarind water, potatoes and chickpeas.', image: tempImageUrl, badge: 'Bestseller', rating: 4.9, spicyLevel: 'Medium' },
-  { id: 'pp2', name: 'Masala Pani Puri', description: 'Extra spicy masala blend with aromatic herbs and tangy filling.', image: tempImageUrl, badge: 'Spicy', rating: 4.8, spicyLevel: 'High' },
-  { id: 'pp3', name: 'Cheese Pani Puri', description: 'Loaded with creamy cheese and crunchy pani puri shells.', image: tempImageUrl, badge: 'Fusion', rating: 4.7, spicyLevel: 'Low' },
-  { id: 'pp4', name: 'Corn Pani Puri', description: 'Sweet corn and masala stuffing inside crispy puris.', image: tempImageUrl, badge: 'New', rating: 4.6, spicyLevel: 'Medium' },
-  { id: 'pp5', name: 'Dahi Puri', description: 'Creamy yogurt, sev and chutney topping for a rich taste.', image: tempImageUrl, badge: 'Popular', rating: 4.9, spicyLevel: 'Low' },
-  { id: 'pp6', name: 'Spicy Mint Pani Puri', description: 'Mint-based spicy pani with jalapeño flavour and herbs.', image: tempImageUrl, badge: 'Hot', rating: 4.8, spicyLevel: 'Extreme' },
+  { id: 'pp1', name: 'Pani Puri', description: 'Classic tangy and spicy pani puri.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/Pani%20Poori.png', badge: 'Chaat', rating: 4.9 },
+  { id: 'pp2', name: 'Dahi Pani Puri', description: 'Sweet and tangy dahi pani puri.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/Dahi%20pani%20poori.png', badge: 'Chaat', rating: 4.8 },
+  { id: 'pp3', name: 'Masala Puri', description: 'Crunchy masala puri with warm peas gravy.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/Msasaal%20poori.png', badge: 'Chaat', rating: 4.7 },
+  { id: 'pp4', name: 'Thayir Puri (Curd Puri)', description: 'Rich and creamy curd puri with sev.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/thayir%20puri%20-_Curd%20poori_.png', badge: 'Chaat', rating: 4.8 },
 ];
 
 export const momoItems = [
-  { id: 'm1', name: 'Veg Momos', description: 'Steamed dumplings filled with fresh vegetables and herbs.', image: tempImageUrl, badge: 'Veg', rating: 4.7 },
-  { id: 'm2', name: 'Paneer Momos', description: 'Juicy paneer filling wrapped in soft momo dough.', image: tempImageUrl, badge: 'Bestseller', rating: 4.9 },
-  { id: 'm3', name: 'Fried Momos', description: 'Golden fried momos with crunchy texture and spicy dip.', image: tempImageUrl, badge: 'Crispy', rating: 4.8 },
-  { id: 'm4', name: 'Cheese Momos', description: 'Cheesy filling with soft outer dough and spicy sauce.', image: tempImageUrl, badge: 'Fusion', rating: 4.8 },
-  { id: 'm5', name: 'Schezwan Momos', description: 'Spicy schezwan-coated momos with extra masala flavour.', image: tempImageUrl, badge: 'Spicy', rating: 4.7 },
-  { id: 'm6', name: 'Tandoori Momos', description: 'Tandoori-marinated momos grilled with smoky flavours.', image: tempImageUrl, badge: 'Premium', rating: 4.9 },
+  { id: 'm1', name: 'Veg Momos', description: 'Steamed dumplings filled with fresh vegetables and herbs.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/veg%20momos.png', badge: 'Veg', rating: 4.7 },
+  { id: 'm2', name: 'Paneer Momos', description: 'Juicy paneer filling wrapped in soft momo dough.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/panner%202%20momos.png', badge: 'Bestseller', rating: 4.9 },
+  { id: 'm3', name: 'Chicken Momos', description: 'Delicious chicken filling wrapped in a soft, steamed dough.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/cheicken%20momos.png', badge: 'Premium', rating: 4.8 },
+  { id: 'm4', name: 'Cheese Momos', description: 'Cheesy filling with soft outer dough and spicy sauce.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/Cheese%20momos.png', badge: 'Fusion', rating: 4.8 },
+  { id: 'm5', name: 'Chicken Peri Peri Momos', description: 'Spicy peri peri coated chicken momos with extra masala.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/chickerm%20peri%20peri.png', badge: 'Spicy', rating: 4.9 },
 ];
 
 export const mojitoItems = [
-  { id: 'mj1', name: 'Mint Mojito', description: 'Refreshing mint, lime and soda combination.', image: tempImageUrl, badge: 'Classic', rating: 4.8 },
-  { id: 'mj2', name: 'Blue Lagoon Mojito', description: 'Blue lagoon flavour with lemon and soda.', image: tempImageUrl, badge: 'Popular', rating: 4.7 },
-  { id: 'mj3', name: 'Watermelon Mojito', description: 'Sweet watermelon flavour mixed with mint and soda.', image: tempImageUrl, badge: 'Summer Special', rating: 4.8 },
-  { id: 'mj4', name: 'Lemon Mojito', description: 'Classic lemon flavour with mint and crushed ice.', image: tempImageUrl, badge: 'Fresh', rating: 4.6 },
-  { id: 'mj5', name: 'Strawberry Mojito', description: 'Sweet strawberry blend with mint and soda.', image: tempImageUrl, badge: 'New', rating: 4.9 },
-  { id: 'mj6', name: 'Virgin Mojito', description: 'Refreshing non-alcoholic mojito with classic flavours.', image: tempImageUrl, badge: 'Bestseller', rating: 4.8 },
+  { id: 'mj1', name: 'Mint Mojito', description: 'Refreshing mint, lime and soda combination.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/mint%20mojito%20(2).png', badge: 'Classic', rating: 4.8 },
+  { id: 'mj2', name: 'Blue Mojito', description: 'Blue lagoon flavour with lemon and soda.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/blue%20mojito.png', badge: 'Popular', rating: 4.7 },
+  { id: 'mj4', name: 'Lemon Mojito', description: 'Classic lemon flavour with mint and crushed ice.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/lemon%20mojito.png', badge: 'Fresh', rating: 4.6 },
 ];
 
-export const friesItems = [
-  { id: 'f1', name: 'Salted Fries', description: 'Golden crispy fries with light salt seasoning.', image: tempImageUrl, badge: 'Classic', rating: 4.7 },
-  { id: 'f2', name: 'Cheese Fries', description: 'Loaded with melted cheese and crispy fries.', image: tempImageUrl, badge: 'Bestseller', rating: 4.9 },
-  { id: 'f3', name: 'Peri Peri Fries', description: 'Spicy peri peri masala seasoning on crispy fries.', image: tempImageUrl, badge: 'Spicy', rating: 4.8 },
-  { id: 'f4', name: 'Loaded Fries', description: 'Loaded with cheese, jalapeños and sauces.', image: tempImageUrl, badge: 'Premium', rating: 4.9 },
-  { id: 'f5', name: 'Spicy Fries', description: 'Extra spicy fries with chilli and garlic mix.', image: tempImageUrl, badge: 'Hot', rating: 4.7 },
-  { id: 'f6', name: 'BBQ Fries', description: 'Smoky BBQ flavoured fries with sauce topping.', image: tempImageUrl, badge: 'Smoky', rating: 4.8 },
+export const crispItems = [
+  { id: 'ci1', name: 'French Fries', description: 'Classic golden crispy French fries.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/French%20Fries.png', badge: 'Snack', rating: 4.8 },
+  { id: 'ci2', name: 'Veg Frankie', description: 'Delicious vegetable filling wrapped in a soft frankie.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/Veg%20fraankie.png', badge: 'Frankie', rating: 4.7 },
+  { id: 'ci3', name: 'Chicken Frankie', description: 'Juicy chicken filling wrapped in a soft frankie.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/cheicken%20frankie.png', badge: 'Frankie', rating: 4.9 },
+];
+
+export const breadOmeletteItems = [
+  { id: 'bo1', name: 'Chicken Bread Omelette', description: 'Fluffy omelette packed with spicy chicken chunks inside toasted bread.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/Chieck%20bread%20omletee.png', badge: 'Premium', rating: 4.9 },
+  { id: 'bo2', name: 'Cheese Bread Omelette', description: 'Loaded with gooey cheese folded inside a warm bread omelette.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/cheese%20brwaead%20omletee.png', badge: 'Bestseller', rating: 4.8 },
+  { id: 'bo3', name: 'Veg Bread Omelette', description: 'Healthy bread omelette filled with fresh finely chopped veggies.', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/veg%20bread%20omletee.png', badge: 'Healthy', rating: 4.7 },
 ];
 
 export const categories = [
-  { id: 'pani-puri', title: 'Pani Puri', emoji: '🫧', image: tempImageUrl, count: 6, description: 'Tangy, crispy and full of flavour.' },
-  { id: 'momos', title: 'Momos', emoji: '🥟', image: tempImageUrl, count: 6, description: 'Soft, juicy and spicy dumplings.' },
-  { id: 'mojitos', title: 'Mojitos', emoji: '🍃', image: tempImageUrl, count: 6, description: 'Refreshing cool drinks for every mood.' },
-  { id: 'fries', title: 'French Fries', emoji: '🍟', image: tempImageUrl, count: 6, description: 'Golden crispy fries with exciting flavours.' },
+  { id: 'pani-puri', title: 'Pani Puri', emoji: '🫧', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/Pani%20Poori.png', count: 4, description: 'Tangy, crispy and full of flavour.' },
+  { id: 'momos', title: 'Momos', emoji: '🥟', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/panner%202%20momos.png', count: 5, description: 'Soft, juicy and spicy dumplings.' },
+  { id: 'mojitos', title: 'Mojitos', emoji: '🍃', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/blue%20mojito.png', count: 3, description: 'Refreshing cool drinks for every mood.' },
+  { id: 'crisp-items', title: 'Crisp Items', emoji: '🍟', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/French%20Fries.png', count: 3, description: 'Golden crispy fries and delicious frankies.' },
+  { id: 'bread-omelette', title: 'Bread Omelette', emoji: '🍳', image: 'https://ik.imagekit.io/Selvamraj700/NammaTaste/cheese%20brwaead%20omletee.png', count: 3, description: 'Hot and delicious street-style bread omelettes.' },
 ];
 
 export const features = [
