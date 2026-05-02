@@ -2,7 +2,6 @@
 export const navLinks = [
   { id: 1, name: 'Home', href: '#home' },
   { id: 2, name: 'Categories', href: '#categories' },
-  { id: 3, name: 'Menu', href: '#menu' },
   { id: 4, name: 'Reviews', href: '#reviews' },
   { id: 5, name: 'Contact', href: '#contact' },
 ];
