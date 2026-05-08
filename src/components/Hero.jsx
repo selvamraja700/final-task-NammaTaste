@@ -60,7 +60,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id="home" className="relative min-h-[100dvh] md:min-h-[90dvh] flex items-center pt-24 lg:pt-32 pb-16 lg:pb-20 overflow-hidden bg-[#0f0f0f]">
+    <section id="home" className="relative min-h-[100dvh] md:min-h-[90dvh] flex items-center pt-24 lg:pt-32 pb-16 lg:pb-20 overflow-x-clip bg-[#0f0f0f]">
       {/* Ambient background glows for premium feel */}
       <div className="absolute top-1/4 left-1/4 w-64 md:w-96 h-64 md:h-96 bg-amber-500/10 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-1/4 right-1/4 w-80 md:w-[30rem] h-80 md:h-[30rem] bg-orange-600/5 rounded-full blur-[150px] pointer-events-none"></div>
@@ -69,8 +69,9 @@ const Hero = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 w-full items-center">
           
           {/* LEFT SIDE - DotLottie Animation - Optimized for Mobile Viewport */}
-          <div className="flex items-center justify-center lg:justify-center relative z-10 overflow-hidden lg:overflow-visible">
-            <div ref={animationRef} className="w-[200px] sm:w-[280px] lg:w-[450px] aspect-square flex items-center justify-center relative scale-125 sm:scale-110 lg:scale-100 transition-transform duration-700 pointer-events-none">
+          <div className="flex items-center justify-center lg:justify-center relative z-10">
+            {/* Direct sizing at each breakpoint — NO scale() transforms which bypass overflow clipping */}
+            <div ref={animationRef} className="w-[240px] sm:w-[300px] md:w-[360px] lg:w-[450px] aspect-square flex items-center justify-center relative pointer-events-none">
               {/* Background glow to emphasize animation */}
               <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/10 to-orange-600/10 rounded-full blur-[60px] md:blur-[100px] pointer-events-none"></div>
               

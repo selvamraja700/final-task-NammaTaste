@@ -114,9 +114,14 @@ const Footer = () => {
           </div>
           
           <div className="text-right">
-            <p className="text-[10px] font-black tracking-[0.4em] uppercase text-gray-700/60 transition-opacity hover:opacity-100 select-none">
-              Made by <span className="text-gray-600">TrackTech Bytez</span>
-            </p>
+            <a
+              href="https://www.instagram.com/tracktechbytezz/?hl=en"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 bg-amber-500 text-white text-[10px] font-black uppercase tracking-[0.3em] px-4 py-1.5 rounded-full hover:brightness-110 transition-all duration-200 select-none"
+            >
+              Made by <span className="text-white/90">TrackTech Bytez</span>
+            </a>
           </div>
         </div>
       </div>

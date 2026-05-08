@@ -5,7 +5,9 @@
 @tailwind utilities;
 
 /* Modern CSS Reset */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -13,39 +15,51 @@
 
 @layer base {
   :root {
-    --bg-deep: #0f0f0f;
-    --accent-amber: #fbbf24;
+    --bg-deep:       #0f0f0f;
+    --accent-amber:  #fbbf24;
     --accent-orange: #f97316;
-    
-    /* Luxury Redesign Palette */
-    --ivory-light: #fdfcfb;
-    --ivory-warm: #faf9f6;
-    --text-luxury: #1a1a1a;
-    --text-soft: #5a5a5a;
+    --ivory-light:   #fdfcfb;
+    --ivory-warm:    #faf9f6;
+    --text-luxury:   #1a1a1a;
+    --text-soft:     #5a5a5a;
   }
 
-  html, body, #root {
-    height: 100%;
-    width: 100%;
-    max-width: 100vw;
+  /* ── Global overflow containment ─────────────────────────────────────────
+     overflow-x: clip is the gold standard — it clips painted overflow
+     WITHOUT creating a scroll container (unlike overflow: hidden).
+     This means fixed/sticky children still reference the viewport correctly.
+  ─────────────────────────────────────────────────────────────────────── */
+  html {
     overflow-x: clip;
-    position: relative;
+    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-
-  html {
-    scroll-behavior: smooth;
-    /* Prevent layout shift when scrollbar appears/disappears */
+    /* scrollbar-gutter only works with overflow: auto/scroll, NOT with clip.
+       We apply it only to html and keep x-overflow clipped separately. */
+    overflow-y: scroll;
     scrollbar-gutter: stable;
   }
 
   body {
+    overflow-x: clip;
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
     background-color: var(--bg-deep);
     color: #ffffff;
     font-family: 'Inter', sans-serif;
     line-height: 1.5;
     text-rendering: optimizeLegibility;
+    /* Normalize touch behavior — prevents 300ms tap delay on mobile */
+    touch-action: manipulation;
+  }
+
+  #root {
+    overflow-x: clip;
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
+    min-height: 100dvh;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -53,12 +67,38 @@
   }
 }
 
+/* ── Interaction Guidance Glow Animation ──────────────────────────────────
+   Premium subtle CTA highlight. 4s cycle, runs 3 times.
+   
+   Engineering decisions:
+   - NO scale transforms — scale(1.02) on a full-width mobile button adds
+     ~6px of visual bloat. Instead we rely solely on box-shadow for the glow.
+   - Peak glow is 8px blur at 0.35 opacity — tight to the button edge,
+     reads as a soft cinematic pulse rather than a neon bloom.
+   - border-color shift is subtle (0.15 → 0.45) for a refined edge highlight.
+─────────────────────────────────────────────────────────────────────── */
+@keyframes interaction-glow {
+  0%     { box-shadow: 0 0 0    rgba(251,191,36,0);    border-color: rgba(251,191,36,0.15); }
+  37.5%  { box-shadow: 0 0 8px  rgba(251,191,36,0.35); border-color: rgba(251,191,36,0.45); }
+  75%    { box-shadow: 0 0 0    rgba(251,191,36,0);    border-color: rgba(251,191,36,0.15); }
+  100%   { box-shadow: 0 0 0    rgba(251,191,36,0);    border-color: rgba(251,191,36,0.15); }
+}
+
+.animate-interaction-glow {
+  animation: interaction-glow 4s ease-in-out 3;
+  will-change: box-shadow;
+}
+
+
+
+
 @layer components {
+
   /* Glassmorphism utilities */
   .glass-panel {
     @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)];
   }
-  
+
   .glass-panel-hover {
     @apply hover:bg-white/10 hover:border-white/20 transition-all duration-300;
   }
@@ -67,7 +107,7 @@
   .btn-primary {
     @apply bg-gradient-to-r from-amber-400 to-orange-500 text-black font-bold px-6 py-3 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] hover:scale-105;
   }
-  
+
   .btn-outline {
     @apply border-2 border-amber-400 text-amber-400 px-6 py-3 rounded-full font-bold transition-all duration-300 hover:bg-amber-400 hover:text-black hover:scale-105 hover:shadow-[0_0_20px_rgba(251,191,36,0.5)];
   }
@@ -75,19 +115,22 @@
   .section-title {
     @apply text-3xl md:text-5xl font-bold text-center mb-4 relative bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400;
   }
-  
+
   /* Custom scrollbar for modern feel */
   ::-webkit-scrollbar {
     width: 8px;
   }
+
   ::-webkit-scrollbar-track {
-    background: #0f0f0f; 
+    background: #0f0f0f;
   }
+
   ::-webkit-scrollbar-thumb {
-    background: #333; 
+    background: #333;
     border-radius: 4px;
   }
+
   ::-webkit-scrollbar-thumb:hover {
-    background: #555; 
+    background: #555;
   }
-}
+}

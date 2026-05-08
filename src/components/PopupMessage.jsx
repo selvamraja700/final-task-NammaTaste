@@ -6,37 +6,22 @@ const PopupMessage = ({ openInquiry }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const ONE_HOUR = 60 * 60 * 1000; // 1 hour in milliseconds
-    const lastLoginStr = localStorage.getItem('namma_taste_last_login');
-    const now = Date.now();
+    // 10 minutes in milliseconds
+    const TEN_MINUTES = 10 * 60 * 1000;
     
-    let shouldShow = false;
+    let cycleTimer;
     
-    if (!lastLoginStr) {
-      // Fresh login entirely
-      shouldShow = true;
-    } else {
-      const lastLoginTime = parseInt(lastLoginStr, 10);
-      if (now - lastLoginTime > ONE_HOUR) {
-        // More than 1 hour has passed
-        shouldShow = true;
-      }
-    }
-    
-    if (shouldShow) {
-      // Delay slightly for better UX on initial page load
-      const showTimer = setTimeout(() => {
-        setIsVisible(true);
-        localStorage.setItem('namma_taste_last_login', now.toString());
-        
-        // Auto-dismiss after 7 seconds as requested
-        setTimeout(() => {
-          setIsVisible(false);
-        }, 7000);
-      }, 1000);
-      
-      return () => clearTimeout(showTimer);
-    }
+    const startCycle = () => {
+      // Show the popup
+      setIsVisible(true);
+    };
+
+    // Initial show after 10 minutes
+    cycleTimer = setInterval(startCycle, TEN_MINUTES);
+
+    return () => {
+      if (cycleTimer) clearInterval(cycleTimer);
+    };
   }, []);
 
   return (
@@ -47,7 +32,7 @@ const PopupMessage = ({ openInquiry }) => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -10, scale: 0.95 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="absolute top-full mt-4 right-0 lg:right-6 z-50 glass-panel border border-amber-500/50 p-5 rounded-2xl shadow-[0_20px_50px_rgba(251,191,36,0.25)] flex flex-col gap-4 w-72 md:w-80 pointer-events-auto"
+          className="absolute top-full mt-4 right-4 md:right-8 lg:right-12 z-50 glass-panel border border-amber-500/50 p-5 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.4)] flex flex-col gap-4 w-[calc(100vw-2rem)] sm:w-80 pointer-events-auto"
         >
           <button 
             onClick={() => setIsVisible(false)}
@@ -71,7 +56,7 @@ const PopupMessage = ({ openInquiry }) => {
               setIsVisible(false);
               openInquiry();
             }}
-            className="mt-2 w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-black font-bold py-3 rounded-xl text-sm transition-colors shadow-lg hover:shadow-amber-500/25 active:scale-[0.98]"
+            className="mt-2 w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-black font-bold py-2.5 rounded-xl text-sm transition-colors shadow-lg hover:shadow-amber-500/25 active:scale-[0.98]"
           >
             Book Now
           </button>

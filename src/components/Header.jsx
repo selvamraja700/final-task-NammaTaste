@@ -7,8 +7,9 @@ import { LOGO_URL, MARQUEE_MESSAGES } from '../utils/helpers';
 import { useMarquee } from '../utils/hooks';
 import PopupMessage from './PopupMessage';
 
+// ─── Desktop NavLink Component ────────────────────────────────────────────────
+// GSAP-driven underline hover — no pointer-events issues, isolated from mobile.
 const NavLink = ({ link, onClick }) => {
-  const linkRef = useRef(null);
   const underlineRef = useRef(null);
 
   const handleMouseEnter = () => {
@@ -21,7 +22,6 @@ const NavLink = ({ link, onClick }) => {
 
   return (
     <a
-      ref={linkRef}
       href={link.href}
       onClick={onClick}
       onMouseEnter={handleMouseEnter}
@@ -37,133 +37,244 @@ const NavLink = ({ link, onClick }) => {
   );
 };
 
+// ─── Header Component ─────────────────────────────────────────────────────────
 const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
   const { index: marqueeIndex, direction: marqueeDirection } = useMarquee(MARQUEE_MESSAGES, 5000);
-  const headerRef = useRef(null);
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled]             = useState(false);
+  const [hamburgerGlow, setHamburgerGlow]   = useState(true);
+  const [bookButtonGlow, setBookButtonGlow] = useState(false);
 
+  // ─── Scroll State ───
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // ─── Mobile Menu Scroll Lock ───
+  // ─── Guided User Flow: Phase 1 → Hamburger glow, Phase 2 → CTA glow ───
+  // Only transition when menu is first opened — no stale state risk.
   useEffect(() => {
     if (mobileMenuOpen) {
-      const originalStyle = window.getComputedStyle(document.body).overflow;
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = originalStyle;
-      };
+      setHamburgerGlow(false);
+      setBookButtonGlow(true);
     }
   }, [mobileMenuOpen]);
 
+  // ─── Body Scroll Lock (Mobile Menu) ───────────────────────────────────────
+  // ROOT CAUSE FIX: We must NEVER set pointer-events: none on #root.
+  // The mobile menu IS a child of #root, so that would kill all menu interactions.
+  // Instead, we lock only body overflow + compensate for scrollbar width to prevent layout shift.
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow   = 'hidden';
+      document.body.style.paddingRight = scrollBarWidth > 0 ? `${scrollBarWidth}px` : '';
+    } else {
+      document.body.style.overflow     = '';
+      document.body.style.paddingRight = '';
+    }
+    return () => {
+      document.body.style.overflow     = '';
+      document.body.style.paddingRight = '';
+    };
+  }, [mobileMenuOpen]);
+
+  // ─── Stable toggle handler ──────────────────────────────────────────────────
+  // Uses functional updater to prevent stale closure state on rapid clicks.
+  const handleHamburgerToggle = () => setMobileMenuOpen(prev => !prev);
+  const handleMenuClose       = () => setMobileMenuOpen(false);
+
   return (
     <>
-      {/* Senior Engineering Fix: Isolated Compositing Layer */}
-      <div 
-        className={`fixed top-0 left-0 w-full z-[1000] transition-all duration-300`}
-        style={{ 
+      {/* ── Navbar: GPU-composited, isolated stacking context, z-1000 ── */}
+      {/*
+        NOTE: contain: 'layout style' was removed — it created a containing block
+        that interfered with fixed-position PopupMessage children.
+        GPU compositing is retained via translateZ(0) + willChange.
+      */}
+      <div
+        className="fixed top-0 left-0 w-full z-[1000]"
+        style={{
           isolation: 'isolate',
-          contain: 'layout style',
-          transform: 'translateZ(0)', // Force GPU Compositing Layer
-          willChange: 'transform'
+          transform: 'translateZ(0)',
+          willChange: 'transform',
         }}
       >
-        <nav 
-          className={`w-full flex justify-between items-center px-6 md:px-16 lg:px-24 transition-all duration-500 overflow-hidden border-b border-white/5 ${scrolled ? 'h-16 md:h-20 bg-[#000000]' : 'h-20 md:h-28 bg-[#050505]'}`}
-          style={{ 
+        <nav
+          className={`
+            w-full flex justify-between items-center 
+            px-6 md:px-16 lg:px-24 
+            transition-all duration-500 
+            border-b border-white/5
+            ${scrolled ? 'h-16 md:h-20 bg-[#000000]' : 'h-20 md:h-28 bg-[#050505]'}
+          `}
+          style={{
             boxShadow: scrolled ? '0 10px 30px -10px rgba(0,0,0,0.7)' : 'none',
-            // Using extremely subtle blur only for modern depth, safely contained
-            backdropFilter: 'blur(4px)', 
-            WebkitBackdropFilter: 'blur(4px)'
+            backdropFilter:       'blur(4px)',
+            WebkitBackdropFilter: 'blur(4px)',
           }}
         >
-          {/* Logo Section - Optimized for zero-bleed rendering */}
-          <a href="#home" className="flex items-center gap-4 active:scale-95 transition-transform group relative">
+          {/* Logo */}
+          <a href="#home" className="flex items-center gap-3 md:gap-4 active:scale-95 transition-transform group">
             <div className="relative shrink-0 overflow-hidden rounded-full">
-              <img src={LOGO_URL} alt="Logo" className="h-12 w-12 md:h-16 md:w-16 rounded-full object-cover ring-2 ring-amber-400/30 group-hover:ring-amber-400 transition-all duration-300" loading="eager" />
+              <img
+                src={LOGO_URL}
+                alt="Namma Taste Logo"
+                className="h-10 w-10 md:h-14 md:w-14 lg:h-16 lg:w-16 rounded-full object-cover ring-2 ring-amber-400/30 group-hover:ring-amber-400 transition-all duration-300"
+                loading="eager"
+              />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl md:text-2xl font-heading font-black text-white tracking-tighter leading-none">NAMMA TASTE</span>
-              <span className="text-[10px] md:text-xs font-bold text-amber-500 tracking-[0.3em] uppercase mt-1">Premium Street Food</span>
+              <span className="text-lg md:text-2xl font-heading font-black text-white tracking-tighter leading-none">
+                NAMMA TASTE
+              </span>
+              <span className="text-[10px] md:text-xs font-bold text-amber-500 tracking-[0.25em] uppercase mt-0.5">
+                Premium Street Food
+              </span>
             </div>
           </a>
-          
-          {/* Desktop Nav Links - Standard Engineering Layout */}
+
+          {/* Desktop Navigation Links */}
           <div className="hidden lg:flex gap-10 items-center h-full">
             {navLinks.map(link => (
               <NavLink key={link.id} link={link} />
             ))}
           </div>
-          
-          {/* Desktop CTA & Hamburger - High Performance Interactions */}
-          <div className="flex items-center gap-6">
-            <div className="hidden lg:block relative">
-              <button 
-                onClick={() => openInquiry()} 
-                className="bg-gradient-to-r from-amber-400 to-orange-500 text-black px-8 py-3.5 rounded-xl font-black text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 shadow-lg active:scale-95"
+
+          {/* Desktop CTA + Mobile Hamburger */}
+          <div className="flex items-center gap-4">
+            {/* Desktop-only CTA */}
+            <div className="hidden lg:block">
+              <button
+                onClick={() => openInquiry()}
+                className="bg-gradient-to-r from-amber-400 to-orange-500 text-black px-6 py-2.5 rounded-xl font-black text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 shadow-lg active:scale-95"
               >
                 Book Event
               </button>
             </div>
-            
-            {/* Mobile hamburger - High-Contrast Professional Target */}
-            <button 
-              onClick={() => setMobileMenuOpen(true)} 
-              className="lg:hidden text-white text-3xl focus:outline-none w-[56px] h-[56px] flex justify-center items-center rounded-2xl bg-white/5 border border-white/10 active:scale-90 transition-all"
-              aria-label="Open Menu"
+
+            {/* Hamburger — mobile only, min 44×44px touch target */}
+            <button
+              onClick={handleHamburgerToggle}
+              className={`
+                lg:hidden
+                w-12 h-12 flex items-center justify-center 
+                rounded-full bg-white/5 border border-white/10 
+                text-white/70 hover:text-amber-400 
+                transition-all active:scale-90
+                ${hamburgerGlow ? 'animate-interaction-glow' : ''}
+              `}
+              aria-label="Toggle navigation menu"
+              aria-expanded={mobileMenuOpen}
             >
-              <FaBars />
+              <FaBars size={20} />
             </button>
           </div>
-
-          {/* Contextual Popup Notification */}
-          <PopupMessage openInquiry={openInquiry} />
         </nav>
+
+        <PopupMessage openInquiry={openInquiry} />
       </div>
 
-      {/* Mobile menu */}
+      {/* ── Mobile Menu: Right-side Off-Canvas Drawer ──────────────────────
+        Architecture:
+        - Full-screen overlay container (inset-0) for backdrop tap-to-close
+        - Panel is a right-aligned column at 85vw max, slides from x:100% → x:0
+        - Content is TOP-ALIGNED (not centered) to eliminate dead space
+        - Backdrop on the left half closes the menu on tap
+        ROOT CAUSE FIX: Removed justify-center + pt-24 which caused massive
+        empty zones by centering content in a full-viewport flex container.
+      ─────────────────────────────────────────────────────────────────── */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex justify-end bg-[#0f0f0f]/60 backdrop-blur-md pointer-events-auto"
-            style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
-            onClick={() => setMobileMenuOpen(false)}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[1050] lg:hidden flex justify-end"
+            aria-modal="true"
+            role="dialog"
+            aria-label="Navigation menu"
           >
-            <motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', damping: 25 }} className="w-4/5 max-w-sm h-full glass-panel border-l border-white/10 p-6 sm:p-8 flex flex-col bg-[#0f0f0f]/90" onClick={e => e.stopPropagation()}>
-              <div className="flex justify-between items-center mb-10">
-                <span className="text-2xl font-heading font-bold text-amber-400">Menu</span>
-                <button onClick={() => setMobileMenuOpen(false)} className="text-gray-400 hover:text-white w-[48px] h-[48px] flex justify-center items-center rounded-full active:bg-white/10 transition-colors"><FaTimes size={24} /></button>
+            {/* Backdrop — tap outside panel to close */}
+            <div
+              className="absolute inset-0 bg-black/60"
+              style={{ backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
+              onClick={handleMenuClose}
+              aria-hidden="true"
+            />
+
+            {/* Off-Canvas Panel — slides from right */}
+            <motion.aside
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 320 }}
+              className="relative w-[85vw] max-w-sm h-full bg-[#0a0a0a] border-l border-white/10 flex flex-col"
+              style={{ willChange: 'transform' }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Panel Header — Simplified to remove duplicate branding */}
+              <div className="flex items-center justify-end px-6 h-20 border-b border-white/10 shrink-0">
+                <button
+                  onClick={handleMenuClose}
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-white/60 border border-white/10 hover:text-white hover:bg-white/10 active:scale-90 transition-all"
+                  aria-label="Close menu"
+                >
+                  <FaTimes size={16} />
+                </button>
               </div>
-              <ul className="flex flex-col gap-2">
-                {navLinks.map(link => (
-                  <li key={link.id}>
-                    <a href={link.href} onClick={(e) => { e.preventDefault(); setMobileMenuOpen(false); document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' }); }} className="text-white hover:text-amber-400 text-lg md:text-xl font-medium transition-colors flex items-center w-full min-h-[48px] px-4 rounded-xl active:bg-white/5">
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-                <li className="mt-6">
-                  <button onClick={() => { setMobileMenuOpen(false); openInquiry(); }} className="w-full btn-primary min-h-[56px] text-lg flex items-center justify-center">Book Event</button>
-                </li>
-              </ul>
-            </motion.div>
+
+              {/* Nav Links — top-aligned, no justify-center */}
+              <nav className="flex flex-col flex-1 px-4 pt-4 pb-8 overflow-y-auto" aria-label="Mobile navigation">
+                <ul className="flex flex-col gap-1">
+                  {navLinks.map(link => (
+                    <li key={link.id}>
+                      <a
+                        href={link.href}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleMenuClose();
+                          setTimeout(() => {
+                            document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
+                          }, 150);
+                        }}
+                        className="flex items-center w-full min-h-[52px] px-4 rounded-xl text-white/80 hover:text-amber-400 text-lg font-semibold tracking-tight transition-all hover:bg-white/5 active:bg-white/10 active:scale-[0.98]"
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Divider */}
+                <div className="w-full h-px bg-white/10 my-6" />
+
+                {/* CTA Button — below nav links, full width */}
+                <button
+                  onClick={() => {
+                    handleMenuClose();
+                    openInquiry();
+                  }}
+                  className={`
+                    w-full min-h-[48px] rounded-xl 
+                    bg-gradient-to-r from-amber-400 to-orange-500 
+                    text-black font-black text-sm tracking-wide
+                    border border-amber-500/30
+                    transition-all active:scale-[0.97]
+                    ${bookButtonGlow ? 'animate-interaction-glow' : ''}
+                  `}
+                >
+                  Book an Event
+                </button>
+              </nav>
+            </motion.aside>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Minimal Floating Announcement - No Background Strip */}
+
+      {/* ── Marquee Announcement Bar ── pointer-events-none, z-30 ──────────── */}
       <div className="relative z-30 py-4 mt-20 md:mt-28 pointer-events-none">
         <div className="container mx-auto px-4 overflow-hidden relative h-6">
           <AnimatePresence mode="wait">
@@ -173,10 +284,10 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -15, opacity: 0 }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
-              className="absolute left-0 top-0 w-full text-center text-amber-500 text-xs md:text-sm font-bold tracking-[0.2em] uppercase pointer-events-auto"
-              style={{ 
+              className="absolute left-0 top-0 w-full text-center text-amber-500 text-xs md:text-sm font-bold tracking-[0.2em] uppercase"
+              style={{
                 willChange: 'transform, opacity',
-                textShadow: '0 2px 10px rgba(0,0,0,0.5)' // Subtle shadow for legibility on dynamic backgrounds
+                textShadow: '0 2px 10px rgba(0,0,0,0.5)',
               }}
             >
               ✦ {MARQUEE_MESSAGES[marqueeIndex]} ✦

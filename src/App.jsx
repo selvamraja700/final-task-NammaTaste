@@ -175,7 +175,10 @@ function MainSite() {
   if (!isUnlocked) return <AccessPage onUnlock={handleUnlock} />;
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] text-white selection:bg-amber-500/30 selection:text-amber-200">
+    <div 
+      className="relative min-h-screen bg-[#0f0f0f] text-white selection:bg-amber-500/30 selection:text-amber-200 overflow-x-clip max-w-[100vw] w-full"
+      style={{ isolation: 'isolate' }}
+    >
       <AnimatePresence>
         {notification.show && (
           <Notification message={notification.message} type={notification.type} />

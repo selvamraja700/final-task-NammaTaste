@@ -71,9 +71,9 @@ export const ContactForm = ({ contactForm, contactSubmitting, handleContactSubmi
             <button 
               type="submit" 
               disabled={contactSubmitting} 
-              className="w-full bg-gradient-to-r from-amber-400 to-orange-500 text-black min-h-[72px] text-xl font-black rounded-3xl transition-all hover:scale-[1.02] active:scale-95 shadow-[0_20px_50px_rgba(251,191,36,0.3)] hover:shadow-[0_20px_60px_rgba(251,191,36,0.5)] flex items-center justify-center group overflow-hidden relative"
+              className="w-full bg-gradient-to-r from-amber-400 to-orange-500 text-black min-h-[56px] text-lg font-black rounded-2xl transition-all hover:scale-[1.02] active:scale-95 shadow-[0_20px_50px_rgba(251,191,36,0.3)] hover:shadow-[0_20px_60px_rgba(251,191,36,0.5)] flex items-center justify-center group overflow-hidden relative"
             >
-              <span className="relative z-10">{contactSubmitting ? 'Sending Message...' : 'Send Message'}</span>
+              <span className="relative z-10">{contactSubmitting ? 'Sending...' : 'Send Message'}</span>
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
             </button>
           </form>
@@ -85,28 +85,25 @@ export const ContactForm = ({ contactForm, contactSubmitting, handleContactSubmi
 
 
 export const OrderModal = React.memo(({ isOpen, onClose, onSubmit, formData, errors, isSubmitting, isCooldown, cooldownTimeLeft }) => {
-  // ─── Body Scroll Lock & Escape Key ───
+  // ─── Body Scroll Lock + Escape Key + Keyboard Accessibility ───
+  // Engineering note: We ONLY lock body scroll. We never set pointer-events on
+  // any parent because the modal content is a child of #root — doing so would
+  // kill all interactions inside the modal itself.
   useEffect(() => {
-    if (isOpen) {
-      // Modern Scroll Lock: Disable scrolling on body and html
-      const originalStyle = window.getComputedStyle(document.body).overflow;
-      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-      
-      document.body.style.overflow = 'hidden';
-      // Prevent layout shift by adding padding if scrollbar existed
-      if (scrollBarWidth > 0) {
-        document.body.style.paddingRight = `${scrollBarWidth}px`;
-      }
-      
-      const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
-      window.addEventListener('keydown', handleEsc);
-      
-      return () => {
-        document.body.style.overflow = originalStyle;
-        document.body.style.paddingRight = '';
-        window.removeEventListener('keydown', handleEsc);
-      };
-    }
+    if (!isOpen) return;
+
+    const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow     = 'hidden';
+    document.body.style.paddingRight = scrollBarWidth > 0 ? `${scrollBarWidth}px` : '';
+
+    const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handleEsc);
+
+    return () => {
+      document.body.style.overflow     = '';
+      document.body.style.paddingRight = '';
+      window.removeEventListener('keydown', handleEsc);
+    };
   }, [isOpen, onClose]);
 
   return (
@@ -116,30 +113,27 @@ export const OrderModal = React.memo(({ isOpen, onClose, onSubmit, formData, err
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4 sm:p-6 touch-none"
+          className="fixed inset-0 bg-black/90 z-[1100] flex items-center justify-center p-3 sm:p-6"
           style={{ 
-            // Fallback for browsers that don't support backdrop-filter or where it's buggy
-            backgroundColor: 'rgba(0, 0, 0, 0.85)',
-            backdropFilter: 'blur(12px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(12px) saturate(180%)'
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)'
           }}
           onClick={onClose}
         >
           <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            initial={{ scale: 0.95, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            transition={{ type: 'spring', damping: 28, stiffness: 350 }}
-            className="relative w-full max-w-4xl bg-white rounded-[2.5rem] shadow-[0_25px_80px_rgba(0,0,0,0.4)] overflow-hidden flex flex-col max-h-[90dvh]"
+            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+            transition={{ type: 'spring', damping: 30, stiffness: 400 }}
+            className="relative w-full max-w-4xl bg-white rounded-[2rem] md:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[92dvh] sm:max-h-[90dvh]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header Area */}
             <div 
-              className="px-6 md:px-12 py-5 md:py-8 border-b border-slate-100 flex justify-between items-center bg-white/90 backdrop-blur-md z-10"
-              style={{ backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
+              className="px-5 md:px-12 py-4 md:py-8 border-b border-gray-100 flex justify-between items-center bg-white z-10"
             >
               <div className="space-y-1">
-                <h3 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tight font-heading leading-tight">
+                <h3 className="text-xl md:text-4xl font-black text-slate-900 tracking-tighter font-heading leading-tight">
                   Book an <span className="text-amber-500">Event</span>
                 </h3>
                 <p className="text-slate-500 text-[10px] md:text-sm font-bold uppercase tracking-widest">Premium Culinary Inquiry</p>
@@ -261,7 +255,7 @@ export const OrderModal = React.memo(({ isOpen, onClose, onSubmit, formData, err
                 form="booking-form"
                 type="submit" 
                 disabled={isSubmitting || isCooldown} 
-                className={`w-full min-h-[52px] md:min-h-[64px] text-base md:text-xl font-black rounded-2xl md:rounded-3xl transition-all shadow-xl shadow-amber-500/10 flex items-center justify-center gap-3 ${
+                className={`w-full min-h-[48px] md:min-h-[56px] text-sm md:text-lg font-black rounded-xl md:rounded-2xl transition-all shadow-xl shadow-amber-500/10 flex items-center justify-center gap-3 ${
                   isCooldown 
                     ? 'bg-red-50 text-red-500 border border-red-100 cursor-not-allowed' 
                     : 'bg-gradient-to-r from-amber-400 to-orange-500 text-black hover:scale-[1.02] active:scale-95 hover:shadow-amber-500/30'
@@ -270,7 +264,7 @@ export const OrderModal = React.memo(({ isOpen, onClose, onSubmit, formData, err
                 {isCooldown 
                   ? `Wait ${Math.floor(cooldownTimeLeft/60)}:${(cooldownTimeLeft%60).toString().padStart(2,'0')}` 
                   : isSubmitting 
-                    ? <span className="flex items-center gap-3"><div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Submitting...</span>
+                    ? <span className="flex items-center gap-3"><div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Submitting...</span>
                     : 'Send Booking Inquiry'}
               </button>
             </div>
