@@ -12,6 +12,7 @@ const RateLimitError = ({ timeLeft }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-[200] flex items-center justify-center bg-[#0f0f0f]/95 backdrop-blur-md p-4"
+      style={{ backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}
     >
       <motion.div 
         initial={{ scale: 0.9, y: 20 }}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes, FaCalendarAlt } from 'react-icons/fa';
 import DatePicker from 'react-datepicker';
@@ -6,38 +6,75 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 export const ContactForm = ({ contactForm, contactSubmitting, handleContactSubmit }) => {
   return (
-    <section id="contact" className="py-16 md:py-24 bg-gradient-to-b from-[#050505] to-[#0a0a0a]">
-      <div className="container mx-auto px-4 max-w-3xl">
-        <div className="text-center mb-10 md:mb-12">
-          <h2 className="section-title text-3xl md:text-4xl lg:text-5xl">Get In Touch</h2>
-          <p className="text-gray-400 text-base md:text-lg">Have a question or want to book us for an event? Drop a message!</p>
+    <section id="contact" className="py-24 md:py-40 relative overflow-hidden" style={{ background: 'linear-gradient(to bottom, #fdfcfb, #faf9f6)' }}>
+      {/* Subtle background glow for depth */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(251,191,36,0.03),transparent_50%)] pointer-events-none"></div>
+
+      <div className="container mx-auto px-4 max-w-5xl relative z-10">
+        <div className="text-center mb-16 md:mb-24">
+          <h2 className="text-5xl md:text-7xl font-black text-[#1a1a1a] tracking-tight mb-6">
+            Get In <span className="text-amber-500">Touch</span>
+          </h2>
+          <p className="text-[#5a5a5a] text-lg md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed">
+            Have a question or want to book us for an event? We'd love to hear from you.
+          </p>
         </div>
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="glass-panel p-6 sm:p-8 md:p-12 rounded-[2rem] shadow-[0_0_40px_rgba(0,0,0,0.5)] border-t border-white/10">
-          <form onSubmit={handleContactSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
-                <input type="text" name="name" value={contactForm.values.name} onChange={contactForm.handleChange} className="w-full bg-black/40 border border-white/10 rounded-xl px-4 min-h-[52px] text-base text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all" />
-                {contactForm.errors.name && <p className="text-red-400 text-xs mt-1">{contactForm.errors.name}</p>}
+
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }} 
+          whileInView={{ opacity: 1, y: 0 }} 
+          viewport={{ once: true }} 
+          className="bg-white p-8 md:p-20 rounded-[4rem] shadow-[0_40px_100px_rgba(0,0,0,0.06)] border border-[#f0f0f0] relative"
+        >
+          {/* Decorative element - Strictly contained */}
+          <div className="absolute -top-10 right-0 w-32 h-32 bg-amber-400/5 rounded-full blur-3xl"></div>
+
+          <form onSubmit={handleContactSubmit} className="space-y-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              <div className="space-y-3">
+                <label className="block text-[11px] font-black text-amber-600 uppercase tracking-[0.2em] ml-1">Full Name</label>
+                <input 
+                  type="text" name="name" placeholder="John Doe"
+                  value={contactForm.values.name} onChange={contactForm.handleChange} 
+                  className="w-full bg-[#faf9f6] border border-[#ecebe8] rounded-2xl px-8 min-h-[72px] text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all font-medium placeholder:text-gray-400" 
+                />
+                {contactForm.errors.name && <p className="text-red-500 text-xs font-bold mt-1 ml-1">{contactForm.errors.name}</p>}
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
-                <input type="tel" name="phone" value={contactForm.values.phone} onChange={contactForm.handleChange} className="w-full bg-black/40 border border-white/10 rounded-xl px-4 min-h-[52px] text-base text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all" />
-                {contactForm.errors.phone && <p className="text-red-400 text-xs mt-1">{contactForm.errors.phone}</p>}
+              <div className="space-y-3">
+                <label className="block text-[11px] font-black text-amber-600 uppercase tracking-[0.2em] ml-1">Phone Number</label>
+                <input 
+                  type="tel" name="phone" placeholder="10-digit number"
+                  value={contactForm.values.phone} onChange={contactForm.handleChange} 
+                  className="w-full bg-[#faf9f6] border border-[#ecebe8] rounded-2xl px-8 min-h-[72px] text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all font-medium placeholder:text-gray-400" 
+                />
+                {contactForm.errors.phone && <p className="text-red-500 text-xs font-bold mt-1 ml-1">{contactForm.errors.phone}</p>}
               </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
-              <input type="email" name="email" value={contactForm.values.email} onChange={contactForm.handleChange} className="w-full bg-black/40 border border-white/10 rounded-xl px-4 min-h-[52px] text-base text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all" />
-              {contactForm.errors.email && <p className="text-red-400 text-xs mt-1">{contactForm.errors.email}</p>}
+            <div className="space-y-3">
+              <label className="block text-[11px] font-black text-amber-600 uppercase tracking-[0.2em] ml-1">Email Address</label>
+              <input 
+                type="email" name="email" placeholder="hello@example.com"
+                value={contactForm.values.email} onChange={contactForm.handleChange} 
+                className="w-full bg-[#faf9f6] border border-[#ecebe8] rounded-2xl px-8 min-h-[72px] text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all font-medium placeholder:text-gray-400" 
+              />
+              {contactForm.errors.email && <p className="text-red-500 text-xs font-bold mt-1 ml-1">{contactForm.errors.email}</p>}
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Message</label>
-              <textarea name="message" rows="4" value={contactForm.values.message} onChange={contactForm.handleChange} className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-4 text-base text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all resize-none min-h-[120px]" />
-              {contactForm.errors.message && <p className="text-red-400 text-xs mt-1">{contactForm.errors.message}</p>}
+            <div className="space-y-3">
+              <label className="block text-[11px] font-black text-amber-600 uppercase tracking-[0.2em] ml-1">Message</label>
+              <textarea 
+                name="message" rows="5" placeholder="Tell us how we can help..."
+                value={contactForm.values.message} onChange={contactForm.handleChange} 
+                className="w-full bg-[#faf9f6] border border-[#ecebe8] rounded-2xl px-8 py-6 text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all resize-none min-h-[180px] font-medium placeholder:text-gray-400" 
+              />
+              {contactForm.errors.message && <p className="text-red-500 text-xs font-bold mt-1 ml-1">{contactForm.errors.message}</p>}
             </div>
-            <button type="submit" disabled={contactSubmitting} className="w-full btn-primary min-h-[56px] text-lg font-bold flex items-center justify-center">
-              {contactSubmitting ? 'Sending Message...' : 'Send Message'}
+            <button 
+              type="submit" 
+              disabled={contactSubmitting} 
+              className="w-full bg-gradient-to-r from-amber-400 to-orange-500 text-black min-h-[72px] text-xl font-black rounded-3xl transition-all hover:scale-[1.02] active:scale-95 shadow-[0_20px_50px_rgba(251,191,36,0.3)] hover:shadow-[0_20px_60px_rgba(251,191,36,0.5)] flex items-center justify-center group overflow-hidden relative"
+            >
+              <span className="relative z-10">{contactSubmitting ? 'Sending Message...' : 'Send Message'}</span>
+              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
             </button>
           </form>
         </motion.div>
@@ -46,120 +83,202 @@ export const ContactForm = ({ contactForm, contactSubmitting, handleContactSubmi
   );
 };
 
+
 export const OrderModal = React.memo(({ isOpen, onClose, onSubmit, formData, errors, isSubmitting, isCooldown, cooldownTimeLeft }) => {
-  if (!isOpen) return null;
+  // ─── Body Scroll Lock & Escape Key ───
+  useEffect(() => {
+    if (isOpen) {
+      // Modern Scroll Lock: Disable scrolling on body and html
+      const originalStyle = window.getComputedStyle(document.body).overflow;
+      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+      
+      document.body.style.overflow = 'hidden';
+      // Prevent layout shift by adding padding if scrollbar existed
+      if (scrollBarWidth > 0) {
+        document.body.style.paddingRight = `${scrollBarWidth}px`;
+      }
+      
+      const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
+      window.addEventListener('keydown', handleEsc);
+      
+      return () => {
+        document.body.style.overflow = originalStyle;
+        document.body.style.paddingRight = '';
+        window.removeEventListener('keydown', handleEsc);
+      };
+    }
+  }, [isOpen, onClose]);
+
   return (
     <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4 sm:p-6"
-        onClick={onClose}
-      >
+      {isOpen && (
         <motion.div
-          initial={{ scale: 0.95, y: 20 }}
-          animate={{ scale: 1, y: 0 }}
-          exit={{ scale: 0.95, y: 20 }}
-          className="glass-panel rounded-3xl max-w-md w-full p-6 sm:p-8 border-amber-500/30 max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl"
-          onClick={(e) => e.stopPropagation()}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4 sm:p-6 touch-none"
+          style={{ 
+            // Fallback for browsers that don't support backdrop-filter or where it's buggy
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            backdropFilter: 'blur(12px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(12px) saturate(180%)'
+          }}
+          onClick={onClose}
         >
-          <div className="flex justify-between items-center mb-6 md:mb-8">
-            <h3 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500 font-heading">Book an Event</h3>
-            <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors w-[48px] h-[48px] flex justify-center items-center rounded-full bg-white/5 active:bg-white/10"><FaTimes size={20}/></button>
-          </div>
-          
-          <form onSubmit={onSubmit} className="space-y-4 sm:space-y-5">
-            <div>
-              <input
-                type="text" name="name" placeholder="Your Name *"
-                value={formData.values.name} onChange={formData.handleChange}
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 min-h-[52px] text-base text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all placeholder:text-gray-500"
-              />
-              {errors.name && <p className="text-red-400 text-xs mt-1 ml-1">{errors.name}</p>}
-            </div>
-            <div>
-              <input
-                type="tel" name="phone" placeholder="Phone Number (10 digits) *"
-                value={formData.values.phone} onChange={formData.handleChange}
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 min-h-[52px] text-base text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all placeholder:text-gray-500"
-              />
-              {errors.phone && <p className="text-red-400 text-xs mt-1 ml-1">{errors.phone}</p>}
-            </div>
-            <div>
-              <input
-                type="text" name="address" placeholder="Event Address *"
-                value={formData.values.address} onChange={formData.handleChange}
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 min-h-[52px] text-base text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all placeholder:text-gray-500"
-              />
-              {errors.address && <p className="text-red-400 text-xs mt-1 ml-1">{errors.address}</p>}
-            </div>
-            <div>
-              <select
-                name="eventType" value={formData.values.eventType} onChange={formData.handleChange}
-                className="w-full bg-[#111] border border-white/10 rounded-xl px-4 min-h-[52px] text-base text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all appearance-none cursor-pointer"
-              >
-                <option value="">Select Event Type *</option>
-                {['Birthday Party','Anniversary','Corporate Event','Wedding','Get-together','Other (please specify)'].map(t => (
-                  <option key={t} value={t}>{t}</option>
-                ))}
-              </select>
-              {errors.eventType && <p className="text-red-400 text-xs mt-1 ml-1">{errors.eventType}</p>}
-            </div>
-            {formData.values.eventType === 'Other (please specify)' && (
-              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}>
-                <input
-                  type="text" name="eventTypeOther" placeholder="Specify (min 25 chars, no spaces) *"
-                  value={formData.values.eventTypeOther} onChange={formData.handleChange}
-                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 min-h-[52px] text-base text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all placeholder:text-gray-500 mt-4 sm:mt-5"
-                />
-                {errors.eventTypeOther && <p className="text-red-400 text-xs mt-1 ml-1">{errors.eventTypeOther}</p>}
-              </motion.div>
-            )}
-            
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 z-10">
-                <FaCalendarAlt />
-              </div>
-              <DatePicker
-                selected={formData.values.eventDate}
-                onChange={(date) => formData.setValues(prev => ({...prev, eventDate: date}))}
-                minDate={new Date()}
-                placeholderText="Select Event Date *"
-                className="w-full bg-black/40 border border-white/10 rounded-xl pl-12 pr-4 min-h-[52px] text-base text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all cursor-pointer w-full"
-                dateFormat="MMMM d, yyyy"
-                wrapperClassName="w-full block"
-              />
-              {errors.eventDate && <p className="text-red-400 text-xs mt-1 ml-1">{errors.eventDate}</p>}
-            </div>
-            
-            <div>
-              <textarea
-                name="items" placeholder="Items of Interest *" rows="3"
-                value={formData.values.items} onChange={formData.handleChange}
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-4 text-base text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all placeholder:text-gray-500 resize-none min-h-[100px]"
-              />
-              {errors.items && <p className="text-red-400 text-xs mt-1 ml-1">{errors.items}</p>}
-            </div>
-            
-            <button 
-              type="submit" 
-              disabled={isSubmitting || isCooldown} 
-              className={`w-full min-h-[56px] text-lg font-bold mt-2 flex items-center justify-center rounded-full transition-all ${
-                isCooldown 
-                  ? 'bg-red-500/10 text-red-500 border border-red-500/30 cursor-not-allowed' 
-                  : 'btn-primary disabled:opacity-50'
-              }`}
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+            transition={{ type: 'spring', damping: 28, stiffness: 350 }}
+            className="relative w-full max-w-4xl bg-white rounded-[2.5rem] shadow-[0_25px_80px_rgba(0,0,0,0.4)] overflow-hidden flex flex-col max-h-[90dvh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header Area */}
+            <div 
+              className="px-6 md:px-12 py-5 md:py-8 border-b border-slate-100 flex justify-between items-center bg-white/90 backdrop-blur-md z-10"
+              style={{ backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
             >
-              {isCooldown 
-                ? `Cooldown: ${Math.floor(cooldownTimeLeft/60)}:${(cooldownTimeLeft%60).toString().padStart(2,'0')}` 
-                : isSubmitting 
-                  ? 'Sending Inquiry...' 
-                  : 'Submit Inquiry'}
-            </button>
-          </form>
+              <div className="space-y-1">
+                <h3 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tight font-heading leading-tight">
+                  Book an <span className="text-amber-500">Event</span>
+                </h3>
+                <p className="text-slate-500 text-[10px] md:text-sm font-bold uppercase tracking-widest">Premium Culinary Inquiry</p>
+              </div>
+              <button 
+                onClick={onClose} 
+                className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-slate-50 text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-all active:scale-90 border border-slate-100"
+              >
+                <FaTimes size={18} />
+              </button>
+            </div>
+            
+            {/* Form Body: Compact & Scrollable only if needed */}
+            <div className="flex-grow overflow-y-auto custom-scrollbar px-6 md:px-12 py-6 md:py-10">
+              <form onSubmit={onSubmit} id="booking-form" className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4 md:gap-y-6">
+                
+                {/* Column 1 */}
+                <div className="space-y-4 md:space-y-6">
+                  <div className="space-y-1.5 md:space-y-2">
+                    <label className="block text-[10px] md:text-xs font-black text-amber-600 uppercase tracking-widest ml-1">Full Name</label>
+                    <input
+                      type="text" name="name" placeholder="John Doe"
+                      value={formData.values.name} onChange={formData.handleChange}
+                      className="w-full bg-[#faf9f6] border border-gray-200 rounded-xl md:rounded-2xl px-4 md:px-5 min-h-[46px] md:min-h-[56px] text-sm md:text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all placeholder:text-gray-400 font-medium"
+                    />
+                    {errors.name && <p className="text-red-500 text-[9px] font-bold mt-1 ml-1">{errors.name}</p>}
+                  </div>
+
+                  <div className="space-y-1.5 md:space-y-2">
+                    <label className="block text-[10px] md:text-xs font-black text-amber-600 uppercase tracking-widest ml-1">Phone Number</label>
+                    <input
+                      type="tel" name="phone" placeholder="10-digit mobile"
+                      value={formData.values.phone} onChange={formData.handleChange}
+                      className="w-full bg-[#faf9f6] border border-gray-200 rounded-xl md:rounded-2xl px-4 md:px-5 min-h-[46px] md:min-h-[56px] text-sm md:text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all placeholder:text-gray-400 font-medium"
+                    />
+                    {errors.phone && <p className="text-red-500 text-[9px] font-bold mt-1 ml-1">{errors.phone}</p>}
+                  </div>
+
+                  <div className="space-y-1.5 md:space-y-2">
+                    <label className="block text-[10px] md:text-xs font-black text-amber-600 uppercase tracking-widest ml-1">Event Category</label>
+                    <div className="relative">
+                      <select
+                        name="eventType" value={formData.values.eventType} onChange={formData.handleChange}
+                        className="w-full bg-[#faf9f6] border border-gray-200 rounded-xl md:rounded-2xl px-4 md:px-5 min-h-[46px] md:min-h-[56px] text-sm md:text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all appearance-none cursor-pointer font-medium"
+                      >
+                        <option value="">Select Category</option>
+                        {['Birthday Party','Anniversary','Corporate Event','Wedding','Get-together','Other (please specify)'].map(t => (
+                          <option key={t} value={t}>{t}</option>
+                        ))}
+                      </select>
+                      <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" /></svg>
+                      </div>
+                    </div>
+                    {errors.eventType && <p className="text-red-500 text-[9px] font-bold mt-1 ml-1">{errors.eventType}</p>}
+                  </div>
+                </div>
+
+                {/* Column 2 */}
+                <div className="space-y-4 md:space-y-6">
+                  <div className="space-y-1.5 md:space-y-2">
+                    <label className="block text-[10px] md:text-xs font-black text-amber-600 uppercase tracking-widest ml-1">Venue Address</label>
+                    <input
+                      type="text" name="address" placeholder="Event Location"
+                      value={formData.values.address} onChange={formData.handleChange}
+                      className="w-full bg-[#faf9f6] border border-gray-200 rounded-xl md:rounded-2xl px-4 md:px-5 min-h-[46px] md:min-h-[56px] text-sm md:text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all placeholder:text-gray-400 font-medium"
+                    />
+                    {errors.address && <p className="text-red-500 text-[9px] font-bold mt-1 ml-1">{errors.address}</p>}
+                  </div>
+
+                  <div className="space-y-1.5 md:space-y-2 relative">
+                    <label className="block text-[10px] md:text-xs font-black text-amber-600 uppercase tracking-widest ml-1">Event Date</label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-amber-500 z-10">
+                        <FaCalendarAlt size={14} />
+                      </div>
+                      <DatePicker
+                        selected={formData.values.eventDate}
+                        onChange={(date) => formData.setValues(prev => ({...prev, eventDate: date}))}
+                        minDate={new Date()}
+                        placeholderText="Choose Date"
+                        className="w-full bg-[#faf9f6] border border-gray-200 rounded-xl md:rounded-2xl pl-10 pr-4 min-h-[46px] md:min-h-[56px] text-sm md:text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all cursor-pointer font-medium"
+                        dateFormat="MMMM d, yyyy"
+                        wrapperClassName="w-full block"
+                      />
+                    </div>
+                    {errors.eventDate && <p className="text-red-500 text-[9px] font-bold mt-1 ml-1">{errors.eventDate}</p>}
+                  </div>
+
+                  <div className="space-y-1.5 md:space-y-2">
+                    <label className="block text-[10px] md:text-xs font-black text-amber-600 uppercase tracking-widest ml-1">Menu Preferences</label>
+                    <textarea
+                      name="items" placeholder="Items of interest..." rows="2"
+                      value={formData.values.items} onChange={formData.handleChange}
+                      className="w-full bg-[#faf9f6] border border-gray-200 rounded-xl md:rounded-2xl px-4 md:px-5 py-3 text-sm md:text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all placeholder:text-gray-400 resize-none min-h-[80px] md:min-h-[120px] font-medium"
+                    />
+                    {errors.items && <p className="text-red-500 text-[9px] font-bold mt-1 ml-1">{errors.items}</p>}
+                  </div>
+                </div>
+
+                {/* Full Width Section for 'Other' */}
+                {formData.values.eventType === 'Other (please specify)' && (
+                  <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="md:col-span-2 space-y-1.5 md:space-y-2">
+                    <label className="block text-[10px] md:text-xs font-black text-amber-600 uppercase tracking-widest ml-1">Specify Event Type</label>
+                    <input
+                      type="text" name="eventTypeOther" placeholder="What's the occasion? (min 25 chars)"
+                      value={formData.values.eventTypeOther} onChange={formData.handleChange}
+                      className="w-full bg-[#faf9f6] border border-gray-200 rounded-xl md:rounded-2xl px-4 md:px-5 min-h-[46px] md:min-h-[56px] text-sm md:text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all font-medium"
+                    />
+                    {errors.eventTypeOther && <p className="text-red-500 text-[9px] font-bold mt-1 ml-1">{errors.eventTypeOther}</p>}
+                  </motion.div>
+                )}
+              </form>
+            </div>
+
+            {/* Footer Area: Sticky CTA */}
+            <div className="px-6 md:px-12 py-6 md:py-8 border-t border-gray-100 bg-[#faf9f6]/80 backdrop-blur-md">
+              <button 
+                form="booking-form"
+                type="submit" 
+                disabled={isSubmitting || isCooldown} 
+                className={`w-full min-h-[52px] md:min-h-[64px] text-base md:text-xl font-black rounded-2xl md:rounded-3xl transition-all shadow-xl shadow-amber-500/10 flex items-center justify-center gap-3 ${
+                  isCooldown 
+                    ? 'bg-red-50 text-red-500 border border-red-100 cursor-not-allowed' 
+                    : 'bg-gradient-to-r from-amber-400 to-orange-500 text-black hover:scale-[1.02] active:scale-95 hover:shadow-amber-500/30'
+                }`}
+              >
+                {isCooldown 
+                  ? `Wait ${Math.floor(cooldownTimeLeft/60)}:${(cooldownTimeLeft%60).toString().padStart(2,'0')}` 
+                  : isSubmitting 
+                    ? <span className="flex items-center gap-3"><div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Submitting...</span>
+                    : 'Send Booking Inquiry'}
+              </button>
+            </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      )}
     </AnimatePresence>
   );
 });
+
+

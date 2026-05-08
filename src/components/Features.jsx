@@ -39,9 +39,18 @@ const Features = ({ selectedCategory, handleCategoryClick, setSelectedCategory }
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
-    if (selectedItem) document.body.style.overflow = 'hidden';
-    else document.body.style.overflow = 'unset';
-    return () => { document.body.style.overflow = 'unset'; }
+    if (selectedItem) {
+      const originalStyle = window.getComputedStyle(document.body).overflow;
+      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = 'hidden';
+      if (scrollBarWidth > 0) {
+        document.body.style.paddingRight = `${scrollBarWidth}px`;
+      }
+      return () => {
+        document.body.style.overflow = originalStyle;
+        document.body.style.paddingRight = '';
+      }
+    }
   }, [selectedItem]);
 
   return (
@@ -131,7 +140,8 @@ const Features = ({ selectedCategory, handleCategoryClick, setSelectedCategory }
               animate={{ opacity: 1 }} 
               exit={{ opacity: 0 }} 
               transition={{ duration: 0.3 }}
-              className="absolute inset-0 bg-[#0f0f0f]/80 backdrop-blur-sm pointer-events-auto cursor-pointer"
+              className="absolute inset-0 bg-[#0f0f0f]/80 backdrop-blur-md pointer-events-auto cursor-pointer"
+              style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
               onClick={closeItemModal}
               aria-hidden="true"
             />
@@ -142,7 +152,7 @@ const Features = ({ selectedCategory, handleCategoryClick, setSelectedCategory }
               animate={{ opacity: 1, scale: 1, y: 0 }} 
               exit={{ opacity: 0, scale: 0.95, y: 10 }} 
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-3xl bg-[#0f0f0f] border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] pointer-events-auto z-10 flex flex-col md:flex-row"
+              className="relative w-full max-w-3xl bg-[#0f0f0f] border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] pointer-events-auto z-10 flex flex-col md:flex-row max-h-[90dvh] overflow-y-auto custom-scrollbar"
               role="dialog"
               aria-modal="true"
               aria-labelledby="modal-title"

@@ -214,7 +214,7 @@ function MainSite() {
         contactSubmitting={contactSubmitting}
         handleContactSubmit={handleContactSubmit}
       />
-      <Footer openInquiry={openInquiry} />
+      <Footer />
     </div>
   );
 }

@@ -4,15 +4,50 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Modern CSS Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 @layer base {
+  :root {
+    --bg-deep: #0f0f0f;
+    --accent-amber: #fbbf24;
+    --accent-orange: #f97316;
+    
+    /* Luxury Redesign Palette */
+    --ivory-light: #fdfcfb;
+    --ivory-warm: #faf9f6;
+    --text-luxury: #1a1a1a;
+    --text-soft: #5a5a5a;
+  }
+
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: clip;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   html {
     scroll-behavior: smooth;
+    /* Prevent layout shift when scrollbar appears/disappears */
+    scrollbar-gutter: stable;
   }
+
   body {
-    background-color: #0f0f0f; /* Deep Black Design System */
+    background-color: var(--bg-deep);
     color: #ffffff;
     font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    text-rendering: optimizeLegibility;
   }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Outfit', sans-serif;
   }
