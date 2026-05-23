@@ -55,23 +55,26 @@ const Features = ({ selectedCategory, handleCategoryClick, setSelectedCategory }
 
   return (
     <>
-      <section id="categories" className="py-16 md:py-24 relative bg-[#0f0f0f]">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-white mb-4 text-center tracking-tight">Our Specialties</h2>
-          <p className="text-center text-gray-400 mb-12 md:mb-16 text-base md:text-lg max-w-2xl mx-auto">Select a category to view our delicious offerings. Every dish is crafted with perfection.</p>
+      <section id="categories" className="py-16 md:py-24 relative overflow-hidden" style={{ background: 'linear-gradient(to bottom, #fdfcfb, #faf9f6)' }}>
+        {/* Subtle ambient glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(251,191,36,0.04),transparent_50%)] pointer-events-none"></div>
+
+        <div className="container mx-auto px-4 max-w-7xl relative z-10">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-[#1a1a1a] mb-4 text-center tracking-tight">Our Specialties</h2>
+          <p className="text-center text-[#5a5a5a] mb-12 md:mb-16 text-base md:text-lg max-w-2xl mx-auto">Select a category to view our delicious offerings. Every dish is crafted with perfection.</p>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {categories.map((cat, idx) => (
               <motion.div key={cat.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }} onClick={() => handleCategoryClick(cat.id)} className="cursor-pointer group">
-                <div className="glass-panel rounded-[2rem] p-5 flex flex-col items-center relative overflow-hidden h-full min-h-[48px] transition-all duration-300 hover:bg-white/10 hover:border-amber-400/30 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(251,191,36,0.1)] active:scale-[0.98]">
-                  <div className="w-[88%] aspect-[16/10] rounded-xl overflow-hidden mb-4 bg-black/40 relative">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
+                <div className="bg-white rounded-[2rem] p-5 flex flex-col items-center relative overflow-hidden h-full min-h-[48px] transition-all duration-300 border-2 border-black/10 hover:border-amber-400/40 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(251,191,36,0.12)] active:scale-[0.98] shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+                  <div className="w-[88%] aspect-[16/10] rounded-xl overflow-hidden mb-4 bg-gray-100 relative">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10"></div>
                     <img src={cat.image} alt={cat.title} className="w-full h-full object-cover block pointer-events-none select-none group-hover:scale-110 transition-transform duration-700" loading="lazy" />
                   </div>
                   <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">{cat.emoji}</div>
-                  <h3 className="text-xl md:text-2xl font-heading font-bold text-white mb-2">{cat.title}</h3>
-                  <p className="text-gray-400 text-sm text-center mb-6 leading-relaxed">{cat.description}</p>
-                  <div className="mt-auto inline-flex items-center justify-center w-full py-3 rounded-xl bg-white/5 group-hover:bg-amber-400 group-hover:text-black text-white text-sm font-bold transition-all duration-300">
+                  <h3 className="text-xl md:text-2xl font-heading font-bold text-[#1a1a1a] mb-2">{cat.title}</h3>
+                  <p className="text-[#5a5a5a] text-sm text-center mb-6 leading-relaxed">{cat.description}</p>
+                  <div className="mt-auto inline-flex items-center justify-center w-full py-3 rounded-xl bg-[#1a1a1a] group-hover:bg-amber-400 group-hover:text-black text-white text-sm font-bold transition-all duration-300">
                     View Menu <FaArrowRight size={12} className="ml-2" />
                   </div>
                 </div>
