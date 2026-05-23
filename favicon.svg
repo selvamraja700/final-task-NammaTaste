@@ -1,0 +1,6 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Light blue circular background -->
+  <circle cx="16" cy="16" r="16" fill="#add8e6" />
+  <!-- Centered logo image -->
+  <image href="/favicon.png" width="24" height="24" x="4" y="4" preserveAspectRatio="xMidYMid slice" />
+</svg>
