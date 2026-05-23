@@ -9,6 +9,7 @@ import PopupMessage from './PopupMessage';
 
 // ─── Desktop NavLink Component ────────────────────────────────────────────────
 // GSAP-driven underline hover — no pointer-events issues, isolated from mobile.
+// Smooth-scroll navigation for hash links.
 const NavLink = ({ link, onClick }) => {
   const underlineRef = useRef(null);
 
@@ -20,10 +21,19 @@ const NavLink = ({ link, onClick }) => {
     gsap.to(underlineRef.current, { scaleX: 0, transformOrigin: 'right center', duration: 0.3, ease: 'power2.in' });
   };
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    const target = document.querySelector(link.href);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (onClick) onClick(e);
+  };
+
   return (
     <a
       href={link.href}
-      onClick={onClick}
+      onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className="relative text-sm font-semibold text-gray-300 hover:text-amber-400 transition-colors flex items-center h-full px-2"
@@ -105,31 +115,30 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
             w-full flex justify-between items-center 
             px-6 md:px-16 lg:px-24 
             transition-all duration-500 
-            border-b border-white/5
-            ${scrolled ? 'h-16 md:h-20 bg-[#000000]' : 'h-20 md:h-28 bg-[#050505]'}
+            border-b border-white/[0.05]
+            ${scrolled ? 'h-16 md:h-20 bg-black/95' : 'h-20 md:h-28 bg-[#050505]/90'}
           `}
           style={{
-            boxShadow: scrolled ? '0 10px 30px -10px rgba(0,0,0,0.7)' : 'none',
-            backdropFilter:       'blur(4px)',
-            WebkitBackdropFilter: 'blur(4px)',
+            boxShadow: scrolled ? '0 10px 40px -10px rgba(0,0,0,0.8)' : 'none',
+            backdropFilter:       'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
           }}
         >
           {/* Logo */}
           <a href="#home" className="flex items-center gap-3 md:gap-4 active:scale-95 transition-transform group">
-            <div className="relative shrink-0 overflow-hidden rounded-full">
+            <div 
+              className="relative shrink-0 overflow-hidden rounded-full bg-white p-0.5 md:p-1 flex items-center justify-center transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.9)] border border-white"
+            >
               <img
                 src={LOGO_URL}
                 alt="Namma Taste Logo"
-                className="h-10 w-10 md:h-14 md:w-14 lg:h-16 lg:w-16 rounded-full object-cover ring-2 ring-amber-400/30 group-hover:ring-amber-400 transition-all duration-300"
+                className="h-10 w-10 md:h-14 md:w-14 lg:h-16 lg:w-16 rounded-full object-cover bg-white"
                 loading="eager"
               />
             </div>
             <div className="flex flex-col">
               <span className="text-lg md:text-2xl font-heading font-black text-white tracking-tighter leading-none">
-                NAMMA TASTE
-              </span>
-              <span className="text-[10px] md:text-xs font-bold text-amber-500 tracking-[0.25em] uppercase mt-0.5">
-                Premium Street Food
+                Namma <span className="text-amber-400">Taste</span>
               </span>
             </div>
           </a>
@@ -172,8 +181,18 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
           </div>
         </nav>
 
-        <PopupMessage openInquiry={openInquiry} />
+        {/* ── High-End Bottom Gradient separator (1px fine gold accent line) ── */}
+        <div 
+          className="w-full h-[1px] relative opacity-90"
+          style={{
+            background: 'linear-gradient(90deg, rgba(251,191,36,0) 0%, rgba(251,191,36,0.2) 20%, rgba(251,191,36,0.5) 50%, rgba(251,191,36,0.2) 80%, rgba(251,191,36,0) 100%)',
+            boxShadow: '0 1px 12px rgba(251,191,36,0.15)',
+          }}
+        />
       </div>
+
+      {/* ── PopupMessage: Fixed independently — does NOT disturb navbar, marquee, or hero ── */}
+      <PopupMessage openInquiry={openInquiry} />
 
       {/* ── Mobile Menu: Right-side Off-Canvas Drawer ──────────────────────
         Architecture:

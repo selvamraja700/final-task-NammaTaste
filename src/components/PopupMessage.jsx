@@ -6,60 +6,91 @@ const PopupMessage = ({ openInquiry }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // 10 minutes in milliseconds
-    const TEN_MINUTES = 10 * 60 * 1000;
-    
-    let cycleTimer;
-    
-    const startCycle = () => {
-      // Show the popup
+    // ── Non-intrusive popup strategy ──
+    // 1. Show a small toast 8 seconds after page load (gives user time to orient)
+    // 2. Auto-dismiss after 12 seconds if user doesn't interact
+    // 3. Re-show every 5 minutes for gentle recurring reminder
+    const INITIAL_DELAY = 8000;       // 8s after page load
+    const AUTO_DISMISS  = 12000;      // auto-hide after 12s
+    const RECUR_INTERVAL = 5 * 60 * 1000; // re-show every 5 min
+
+    let dismissTimer;
+    let recurTimer;
+
+    const showPopup = () => {
       setIsVisible(true);
+      // Auto-dismiss after AUTO_DISMISS ms
+      dismissTimer = setTimeout(() => setIsVisible(false), AUTO_DISMISS);
     };
 
-    // Initial show after 10 minutes
-    cycleTimer = setInterval(startCycle, TEN_MINUTES);
+    // Initial show
+    const initialTimer = setTimeout(() => {
+      showPopup();
+      // Recurring show
+      recurTimer = setInterval(showPopup, RECUR_INTERVAL);
+    }, INITIAL_DELAY);
 
     return () => {
-      if (cycleTimer) clearInterval(cycleTimer);
+      clearTimeout(initialTimer);
+      clearTimeout(dismissTimer);
+      if (recurTimer) clearInterval(recurTimer);
     };
   }, []);
+
+  const handleDismiss = () => {
+    setIsVisible(false);
+  };
+
+  const handleBookNow = () => {
+    setIsVisible(false);
+    openInquiry();
+  };
 
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: -20, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -10, scale: 0.95 }}
-          transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="absolute top-full mt-4 right-4 md:right-8 lg:right-12 z-50 glass-panel border border-amber-500/50 p-5 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.4)] flex flex-col gap-4 w-[calc(100vw-2rem)] sm:w-80 pointer-events-auto"
+          initial={{ opacity: 0, x: 60, scale: 0.9 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          exit={{ opacity: 0, x: 40, scale: 0.95 }}
+          transition={{ type: 'spring', damping: 22, stiffness: 260 }}
+          className="fixed top-[140px] md:top-[160px] right-3 md:right-6 lg:right-10 z-[999] pointer-events-auto"
         >
-          <button 
-            onClick={() => setIsVisible(false)}
-            className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 active:bg-white/20"
-          >
-            <FaTimes size={14} />
-          </button>
-          
-          <div className="flex items-center gap-4 pr-6 pt-1">
-            <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 shrink-0 ring-1 ring-amber-500/30">
-              <FaCalendarAlt size={20} />
+          {/* Compact toast-style popup — deliberately small & non-intrusive */}
+          <div className="flex items-center gap-3 bg-[#111111]/95 backdrop-blur-xl border border-amber-500/20 rounded-2xl px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5),0_0_0_1px_rgba(251,191,36,0.08)] max-w-[320px] sm:max-w-[340px]">
+            {/* Icon */}
+            <div className="w-9 h-9 rounded-full bg-amber-500/15 flex items-center justify-center text-amber-400 shrink-0 ring-1 ring-amber-500/20">
+              <FaCalendarAlt size={14} />
             </div>
-            <div>
-              <h4 className="text-white font-bold font-heading text-lg leading-tight mb-1">Planning an Event?</h4>
-              <p className="text-gray-400 text-xs md:text-sm">Book Namma Taste today!</p>
+
+            {/* Content */}
+            <div className="flex-1 min-w-0">
+              <p className="text-white text-xs font-bold leading-tight mb-0.5 truncate">Planning an Event?</p>
+              <button
+                onClick={handleBookNow}
+                className="text-amber-400 text-[11px] font-bold hover:text-amber-300 transition-colors tracking-wide uppercase"
+              >
+                Book Now →
+              </button>
             </div>
+
+            {/* Close */}
+            <button
+              onClick={handleDismiss}
+              className="text-gray-500 hover:text-white transition-colors w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/10 shrink-0"
+              aria-label="Dismiss"
+            >
+              <FaTimes size={10} />
+            </button>
           </div>
-          
-          <button 
-            onClick={() => {
-              setIsVisible(false);
-              openInquiry();
-            }}
-            className="mt-2 w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-black font-bold py-2.5 rounded-xl text-sm transition-colors shadow-lg hover:shadow-amber-500/25 active:scale-[0.98]"
-          >
-            Book Now
-          </button>
+
+          {/* Subtle progress bar for auto-dismiss */}
+          <motion.div
+            initial={{ scaleX: 1 }}
+            animate={{ scaleX: 0 }}
+            transition={{ duration: 12, ease: 'linear' }}
+            className="h-[2px] bg-gradient-to-r from-amber-400/60 to-orange-500/40 rounded-full mt-1 mx-2 origin-left"
+          />
         </motion.div>
       )}
     </AnimatePresence>

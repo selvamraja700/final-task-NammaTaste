@@ -9,7 +9,7 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <section className="py-24 relative overflow-hidden bg-[#0a0a0a]">
+    <section id="reviews" className="py-24 relative overflow-hidden bg-[#0a0a0a]">
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-amber-500/5 rounded-full blur-[100px] pointer-events-none -translate-y-1/2"></div>
       <div className="container mx-auto px-4 relative z-10">
         <h2 className="section-title">What Our Customers Say</h2>

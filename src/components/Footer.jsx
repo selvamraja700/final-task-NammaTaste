@@ -1,5 +1,93 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaWhatsapp, FaInstagram, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
+
+// ─── Sparkle/Glitter Particle Component ───────────────────────────────────────
+const Sparkle = ({ style }) => (
+  <span
+    className="sparkle-particle"
+    style={style}
+  >
+    ✦
+  </span>
+);
+
+// ─── TrackTech Bytez Badge with slide-in + glitter ────────────────────────────
+const TrackTechBadge = () => {
+  const badgeRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [sparkles, setSparkles] = useState([]);
+
+  // Intersection observer — animate when scrolled into view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+    if (badgeRef.current) observer.observe(badgeRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  // Generate sparkle particles when visible
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const generateSparkles = () => {
+      const newSparkles = Array.from({ length: 6 }, (_, i) => ({
+        id: Date.now() + i,
+        style: {
+          position: 'absolute',
+          top: `${Math.random() * 100}%`,
+          left: `${Math.random() * 100}%`,
+          fontSize: `${6 + Math.random() * 8}px`,
+          color: ['#fbbf24', '#f59e0b', '#fcd34d', '#ffffff'][Math.floor(Math.random() * 4)],
+          animationDelay: `${Math.random() * 2}s`,
+          animationDuration: `${1.5 + Math.random() * 1.5}s`,
+        },
+      }));
+      setSparkles(newSparkles);
+    };
+
+    generateSparkles();
+    const interval = setInterval(generateSparkles, 3000);
+    return () => clearInterval(interval);
+  }, [isVisible]);
+
+  return (
+    <div ref={badgeRef} className="text-right overflow-hidden">
+      <a
+        href="https://www.instagram.com/tracktechbytezz/?hl=en"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`
+          tracktech-badge relative inline-flex items-center gap-2
+          bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500
+          text-white text-[10px] font-black uppercase tracking-[0.3em]
+          px-5 py-2 rounded-full
+          hover:shadow-[0_0_24px_rgba(251,191,36,0.4)] hover:scale-105
+          transition-all duration-500 select-none
+          ${isVisible ? 'tracktech-slide-in' : 'opacity-0 translate-x-full'}
+        `}
+        style={{ backgroundSize: '200% auto' }}
+      >
+        {/* Sparkle particles */}
+        {sparkles.map(sparkle => (
+          <Sparkle key={sparkle.id} style={sparkle.style} />
+        ))}
+
+        {/* Shine overlay */}
+        <span className="tracktech-shine" />
+
+        <span className="relative z-10">Made by</span>
+        <span className="relative z-10 text-white font-black">TrackTech Bytez</span>
+      </a>
+    </div>
+  );
+};
 
 const Footer = () => {
   return (
@@ -113,20 +201,11 @@ const Footer = () => {
             </p>
           </div>
           
-          <div className="text-right">
-            <a
-              href="https://www.instagram.com/tracktechbytezz/?hl=en"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 bg-amber-500 text-white text-[10px] font-black uppercase tracking-[0.3em] px-4 py-1.5 rounded-full hover:brightness-110 transition-all duration-200 select-none"
-            >
-              Made by <span className="text-white/90">TrackTech Bytez</span>
-            </a>
-          </div>
+          <TrackTechBadge />
         </div>
       </div>
     </footer>
   );
 };
 
-export default Footer;
+export default Footer;

@@ -63,12 +63,12 @@ const Features = ({ selectedCategory, handleCategoryClick, setSelectedCategory }
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {categories.map((cat, idx) => (
               <motion.div key={cat.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }} onClick={() => handleCategoryClick(cat.id)} className="cursor-pointer group">
-                <div className="glass-panel rounded-[2rem] p-6 flex flex-col items-center relative overflow-hidden h-full min-h-[48px] transition-all duration-300 hover:bg-white/10 hover:border-amber-400/30 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(251,191,36,0.1)] active:scale-[0.98]">
-                  <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-6 bg-black/40 relative">
+                <div className="glass-panel rounded-[2rem] p-5 flex flex-col items-center relative overflow-hidden h-full min-h-[48px] transition-all duration-300 hover:bg-white/10 hover:border-amber-400/30 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(251,191,36,0.1)] active:scale-[0.98]">
+                  <div className="w-[88%] aspect-[16/10] rounded-xl overflow-hidden mb-4 bg-black/40 relative">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
                     <img src={cat.image} alt={cat.title} className="w-full h-full object-cover block pointer-events-none select-none group-hover:scale-110 transition-transform duration-700" loading="lazy" />
                   </div>
-                  <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">{cat.emoji}</div>
+                  <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">{cat.emoji}</div>
                   <h3 className="text-xl md:text-2xl font-heading font-bold text-white mb-2">{cat.title}</h3>
                   <p className="text-gray-400 text-sm text-center mb-6 leading-relaxed">{cat.description}</p>
                   <div className="mt-auto inline-flex items-center justify-center w-full py-3 rounded-xl bg-white/5 group-hover:bg-amber-400 group-hover:text-black text-white text-sm font-bold transition-all duration-300">
@@ -109,9 +109,9 @@ const Features = ({ selectedCategory, handleCategoryClick, setSelectedCategory }
                     tabIndex={0}
                     onKeyDown={(e) => { if(e.key === 'Enter') handleOpenItem(item); }}
                   >
-                    <div className="relative rounded-xl overflow-hidden aspect-video mb-5 bg-black/40">
+                    <div className="w-[88%] mx-auto aspect-[16/10] rounded-xl overflow-hidden mb-4 bg-black/40 relative">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover block pointer-events-none select-none group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                      {item.badge && <span className="absolute top-3 right-3 bg-amber-400 text-black text-[10px] uppercase tracking-wider font-extrabold px-3 py-1 rounded-full shadow-lg pointer-events-none select-none">{item.badge}</span>}
+                      {item.badge && <span className="absolute top-2.5 right-2.5 bg-amber-400 text-black text-[9px] uppercase tracking-wider font-extrabold px-2.5 py-0.5 rounded-full shadow-lg pointer-events-none select-none">{item.badge}</span>}
                     </div>
                     <div className="flex-grow flex flex-col">
                       <h3 className="text-xl md:text-2xl font-bold text-white font-heading leading-tight mb-2 group-hover:text-amber-400 transition-colors">{item.name}</h3>
