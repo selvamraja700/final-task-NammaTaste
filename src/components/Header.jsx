@@ -111,13 +111,12 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
         }}
       >
         <nav
-          className={`
-            w-full flex justify-between items-center 
-            px-6 md:px-16 lg:px-24 
-            transition-all duration-500 
-            border-b border-white/[0.05]
-            ${scrolled ? 'h-16 md:h-20 bg-black/95' : 'h-20 md:h-28 bg-[#050505]/90'}
-          `}
+            className={`
+                w-full flex justify-between items-center 
+                px-6 md:px-16 lg:px-24 
+                transition-all duration-500 
+                ${scrolled ? 'h-16 md:h-20 bg-black/95' : 'h-20 md:h-28 bg-[#050505]/90'}
+            `}
           style={{
             boxShadow: scrolled ? '0 10px 40px -10px rgba(0,0,0,0.8)' : 'none',
             backdropFilter:       'blur(12px)',
@@ -126,16 +125,13 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
         >
           {/* Logo */}
           <a href="#home" className="flex items-center gap-3 md:gap-4 active:scale-95 transition-transform group">
-            <div 
-              className="relative shrink-0 overflow-hidden rounded-full bg-white p-0.5 md:p-1 flex items-center justify-center transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.9)] border border-white"
-            >
               <img
                 src={LOGO_URL}
                 alt="Namma Taste Logo"
-                className="h-10 w-10 md:h-14 md:w-14 lg:h-16 lg:w-16 rounded-full object-cover bg-white"
+                className="h-10 w-10 md:h-14 md:w-14 lg:h-16 lg:w-16 object-cover"
                 loading="eager"
               />
-            </div>
+
             <div className="flex flex-col">
               <span className="text-lg md:text-2xl font-heading font-black text-white tracking-tighter leading-none">
                 Namma <span className="text-amber-400">Taste</span>

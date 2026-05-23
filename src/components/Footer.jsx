@@ -190,19 +190,16 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* ─── BOTTOM FOOTER AREA ─── */}
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex flex-col items-center md:items-start space-y-2">
-            <p className="text-[10px] md:text-xs text-gray-600 font-black uppercase tracking-[0.3em]">
-              © {new Date().getFullYear()} Namma Taste. All rights reserved.
-            </p>
-            <p className="text-[10px] text-gray-700 font-bold uppercase tracking-widest hidden md:block">
-              Premium Street Food Experience
-            </p>
-          </div>
-          
-          <TrackTechBadge />
-        </div>
+<div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-end items-center gap-6">
+  <div className="flex flex-col items-center md:items-start space-y-2 text-right">
+    <p className="text-xs text-white font-bold uppercase">
+      © {new Date().getFullYear()} Namma Taste. All rights reserved.
+    </p>
+    <p className="text-xs text-white font-bold uppercase">
+      Made by TrackTech Bytez
+    </p>
+  </div>
+</div>
       </div>
     </footer>
   );
