@@ -4,7 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 
 // Hooks & Helpers
 import { useAdvancedRateLimiter, useFormValidation } from './utils/hooks';
-import { getTodayDate, getMaxDate, WEB3FORMS_ACCESS_KEY, DispalyTestimonials } from './utils/helpers';
+import { getTodayDate, getMaxDate, WEB3FORMS_ACCESS_KEY, isReviewsEnabled } from './utils/helpers';
 
 // Firebase Analytics
 import { trackPageView, trackSession, trackEvent } from './firebase/analytics';
@@ -211,7 +211,7 @@ function MainSite() {
         handleCategoryClick={handleCategoryClick}
         setSelectedCategory={setSelectedCategory}
       />
-      {(DispalyTestimonials === true || new Date() >= new Date('2026-06-01T00:00:00')) && <Testimonials />}
+      {isReviewsEnabled() && <Testimonials />}
       <ContactForm
         contactForm={contactForm}
         contactSubmitting={contactSubmitting}

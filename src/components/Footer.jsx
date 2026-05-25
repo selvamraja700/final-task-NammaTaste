@@ -14,7 +14,7 @@ const Footer = () => {
             MAIN 2-COLUMN CONTENT AREA (Mobile/Tablet Optimized)
         ═══════════════════════════════════════════════════════════════ */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 mb-20">
-          
+
           {/* ─── LEFT CONTENT AREA ─── */}
           <div className="flex flex-col space-y-12">
             {/* Top Area: About */}
@@ -28,7 +28,7 @@ const Footer = () => {
                 </p>
               </div>
               <p className="text-gray-400 text-base md:text-lg leading-relaxed max-w-md font-medium">
-                Namma Taste serves the most authentic and hygienic street food experience. 
+                Namma Taste serves the most authentic and hygienic street food experience.
                 Taste that truly hits the spot, crafted with passion.
               </p>
             </div>
@@ -108,35 +108,22 @@ const Footer = () => {
           </div>
         </div>
 
-<<<<<<< HEAD
-<div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-end items-center gap-6">
-  <div className="flex flex-col items-center md:items-start space-y-2 text-right">
-    <p className="text-xs text-white font-bold uppercase">
-      © {new Date().getFullYear()} Namma Taste. All rights reserved.
-    </p>
-    <p className="text-xs text-white font-bold uppercase">
-      Made by TrackTech Bytez
-    </p>
-  </div>
-</div>
-=======
         {/* ─── BOTTOM FOOTER AREA ─── */}
         <div className="pt-8 border-t border-white/5 flex flex-col items-center justify-center gap-3 text-center">
-          <p className="text-[10px] md:text-xs text-white font-medium uppercase tracking-[0.3em]">
-            © {new Date().getFullYear()} Namma Taste. All rights reserved.
-          </p>
           <a 
             href="https://www.instagram.com/tracktechbytezz/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[10px] md:text-xs text-white hover:text-amber-400 font-bold uppercase tracking-widest transition-colors duration-200"
+            className="text-xs text-white font-bold uppercase transition-opacity hover:opacity-80"
           >
             Made by TrackTechBytezz
           </a>
+          <p className="text-xs text-white font-bold uppercase">
+            © {new Date().getFullYear()} Namma Taste. All rights reserved.
+          </p>
         </div>
->>>>>>> f7554b6
-      </div>
-    </footer>
+      </div >
+    </footer >
   );
 };
 

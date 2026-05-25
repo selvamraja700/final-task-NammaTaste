@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { navLinks } from '../data';
-import { LOGO_URL, MARQUEE_MESSAGES, DispalyTestimonials } from '../utils/helpers';
+import { LOGO_URL, MARQUEE_MESSAGES, isReviewsEnabled } from '../utils/helpers';
 import { useMarquee } from '../utils/hooks';
 import PopupMessage from './PopupMessage';
 
@@ -54,7 +54,7 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
   const [hamburgerGlow, setHamburgerGlow] = useState(true);
   const [bookButtonGlow, setBookButtonGlow] = useState(false);
 
-  const showReviews = DispalyTestimonials === true || new Date() >= new Date('2026-06-01T00:00:00');
+  const showReviews = isReviewsEnabled();
   const filteredNavLinks = showReviews 
     ? navLinks 
     : navLinks.filter(link => link.name !== 'Reviews');
@@ -130,20 +130,10 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
         >
           {/* Logo */}
           <a href="#home" className="flex items-center gap-3 md:gap-4 active:scale-95 transition-transform group">
-<<<<<<< HEAD
-              <img
-                src={LOGO_URL}
-                alt="Namma Taste Logo"
-                className="h-10 w-10 md:h-14 md:w-14 lg:h-16 lg:w-16 object-cover"
-=======
-            <div
-              className="relative shrink-0 overflow-hidden rounded-full bg-black p-0.5 md:p-1 flex items-center justify-center transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.7)] border border-white/10"
-            >
               <img
                 src={LOGO_URL}
                 alt="Namma Taste Logo"
                 className="h-10 w-10 md:h-14 md:w-14 lg:h-16 lg:w-16 rounded-full object-cover bg-black"
->>>>>>> f7554b6
                 loading="eager"
               />
 
