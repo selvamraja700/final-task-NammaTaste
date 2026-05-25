@@ -60,7 +60,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id="home" className="relative min-h-[100dvh] md:min-h-[90dvh] flex items-center pt-16 sm:pt-24 lg:pt-32 pb-8 sm:pb-16 lg:pb-20 overflow-x-clip bg-[#0f0f0f]">
+    <section id="home" className="relative min-h-[100dvh] md:min-h-[90dvh] flex items-start lg:items-center pt-2 sm:pt-12 lg:pt-32 pb-8 sm:pb-16 lg:pb-20 overflow-x-clip bg-[#0f0f0f]">
       {/* Ambient background glows for premium feel */}
       <div className="absolute top-1/4 left-1/4 w-64 md:w-96 h-64 md:h-96 bg-amber-500/10 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-1/4 right-1/4 w-80 md:w-[30rem] h-80 md:h-[30rem] bg-orange-600/5 rounded-full blur-[150px] pointer-events-none"></div>
@@ -71,7 +71,7 @@ const Hero = () => {
           {/* LEFT SIDE - DotLottie Animation - Optimized for Mobile Viewport */}
           <div className="flex items-center justify-center lg:justify-center relative z-10">
             {/* Direct sizing at each breakpoint — NO scale() transforms which bypass overflow clipping */}
-            <div ref={animationRef} className="w-[170px] sm:w-[240px] md:w-[360px] lg:w-[450px] aspect-square flex items-center justify-center relative pointer-events-none">
+            <div ref={animationRef} className="w-[220px] sm:w-[280px] md:w-[360px] lg:w-[450px] aspect-square flex items-center justify-center relative pointer-events-none">
               {/* Background glow to emphasize animation */}
               <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/10 to-orange-600/10 rounded-full blur-[40px] md:blur-[100px] pointer-events-none"></div>
               
@@ -87,19 +87,19 @@ const Hero = () => {
           <div className="flex flex-col justify-center items-center lg:items-start text-center lg:text-left z-20 relative">
             <h1 className="text-4xl sm:text-6xl lg:text-8xl font-heading font-black leading-[1] mb-3 md:mb-6 tracking-tight w-full">
               <div className="overflow-hidden pb-1">
-                <div ref={title1Ref} className="text-white">Namma Taste</div>
+                <div ref={title1Ref} className="text-white">Namma <span className="text-amber-400">Taste</span></div>
               </div>
             </h1>
  
             <div className="overflow-hidden pb-3 md:pb-6 w-full">
-              <h2 ref={taglineRef} className="text-xl sm:text-3xl lg:text-4xl font-heading font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500 leading-snug">
-                Taste That Hits Different
+              <h2 ref={taglineRef} className="text-xl sm:text-3xl lg:text-4xl font-heading font-black text-white leading-snug">
+                Taste That Hits
               </h2>
             </div>
  
             <div className="overflow-hidden w-full max-w-2xl">
               <p ref={descRef} className="text-gray-300 font-medium text-sm sm:text-lg lg:text-xl mb-6 md:mb-12 leading-relaxed">
-                Experience premium street food crafted with passion. Reimagining the classics into a truly unforgettable culinary journey.
+                Experience authentic street food crafted with passion. Reimagining the classics into a truly unforgettable culinary journey.
               </p>
             </div>
  

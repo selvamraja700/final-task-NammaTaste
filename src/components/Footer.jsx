@@ -1,93 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { FaWhatsapp, FaInstagram, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
 
-// ─── Sparkle/Glitter Particle Component ───────────────────────────────────────
-const Sparkle = ({ style }) => (
-  <span
-    className="sparkle-particle"
-    style={style}
-  >
-    ✦
-  </span>
-);
-
-// ─── TrackTech Bytez Badge with slide-in + glitter ────────────────────────────
-const TrackTechBadge = () => {
-  const badgeRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [sparkles, setSparkles] = useState([]);
-
-  // Intersection observer — animate when scrolled into view
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.5 }
-    );
-    if (badgeRef.current) observer.observe(badgeRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  // Generate sparkle particles when visible
-  useEffect(() => {
-    if (!isVisible) return;
-
-    const generateSparkles = () => {
-      const newSparkles = Array.from({ length: 6 }, (_, i) => ({
-        id: Date.now() + i,
-        style: {
-          position: 'absolute',
-          top: `${Math.random() * 100}%`,
-          left: `${Math.random() * 100}%`,
-          fontSize: `${6 + Math.random() * 8}px`,
-          color: ['#fbbf24', '#f59e0b', '#fcd34d', '#ffffff'][Math.floor(Math.random() * 4)],
-          animationDelay: `${Math.random() * 2}s`,
-          animationDuration: `${1.5 + Math.random() * 1.5}s`,
-        },
-      }));
-      setSparkles(newSparkles);
-    };
-
-    generateSparkles();
-    const interval = setInterval(generateSparkles, 3000);
-    return () => clearInterval(interval);
-  }, [isVisible]);
-
-  return (
-    <div ref={badgeRef} className="text-right overflow-hidden">
-      <a
-        href="https://www.instagram.com/tracktechbytezz/?hl=en"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`
-          tracktech-badge relative inline-flex items-center gap-2
-          bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500
-          text-white text-[10px] font-black uppercase tracking-[0.3em]
-          px-5 py-2 rounded-full
-          hover:shadow-[0_0_24px_rgba(251,191,36,0.4)] hover:scale-105
-          transition-all duration-500 select-none
-          ${isVisible ? 'tracktech-slide-in' : 'opacity-0 translate-x-full'}
-        `}
-        style={{ backgroundSize: '200% auto' }}
-      >
-        {/* Sparkle particles */}
-        {sparkles.map(sparkle => (
-          <Sparkle key={sparkle.id} style={sparkle.style} />
-        ))}
-
-        {/* Shine overlay */}
-        <span className="tracktech-shine" />
-
-        <span className="relative z-10">Made by</span>
-        <span className="relative z-10 text-white font-black">TrackTech Bytez</span>
-      </a>
-    </div>
-  );
-};
 
 const Footer = () => {
   return (
@@ -106,9 +19,14 @@ const Footer = () => {
           <div className="flex flex-col space-y-12">
             {/* Top Area: About */}
             <div className="space-y-6">
-              <h3 className="text-3xl md:text-4xl font-black text-white tracking-tight">
-                Namma <span className="text-amber-400">Taste</span>
-              </h3>
+              <div>
+                <h3 className="text-3xl md:text-4xl font-black text-white tracking-tight">
+                  Namma <span className="text-amber-400">Taste</span>
+                </h3>
+                <p className="text-amber-400 text-sm md:text-base font-heading font-bold tracking-wider mt-1">
+                  Taste That Hits
+                </p>
+              </div>
               <p className="text-gray-400 text-base md:text-lg leading-relaxed max-w-md font-medium">
                 Namma Taste serves the most authentic and hygienic street food experience. 
                 Taste that truly hits the spot, crafted with passion.
@@ -190,6 +108,7 @@ const Footer = () => {
           </div>
         </div>
 
+<<<<<<< HEAD
 <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-end items-center gap-6">
   <div className="flex flex-col items-center md:items-start space-y-2 text-right">
     <p className="text-xs text-white font-bold uppercase">
@@ -200,6 +119,22 @@ const Footer = () => {
     </p>
   </div>
 </div>
+=======
+        {/* ─── BOTTOM FOOTER AREA ─── */}
+        <div className="pt-8 border-t border-white/5 flex flex-col items-center justify-center gap-3 text-center">
+          <p className="text-[10px] md:text-xs text-white font-medium uppercase tracking-[0.3em]">
+            © {new Date().getFullYear()} Namma Taste. All rights reserved.
+          </p>
+          <a 
+            href="https://www.instagram.com/tracktechbytezz/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[10px] md:text-xs text-white hover:text-amber-400 font-bold uppercase tracking-widest transition-colors duration-200"
+          >
+            Made by TrackTechBytezz
+          </a>
+        </div>
+>>>>>>> f7554b6
       </div>
     </footer>
   );

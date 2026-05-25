@@ -24,7 +24,7 @@ export const ContactForm = ({ contactForm, contactSubmitting, handleContactSubmi
           initial={{ opacity: 0, y: 40 }} 
           whileInView={{ opacity: 1, y: 0 }} 
           viewport={{ once: true }} 
-          className="bg-white p-8 md:p-20 rounded-[4rem] shadow-[0_40px_100px_rgba(0,0,0,0.06)] border-2 border-black relative"
+          className="bg-white p-5 sm:p-8 md:p-20 rounded-3xl md:rounded-[4rem] shadow-[0_40px_100px_rgba(0,0,0,0.06)] border-2 border-black relative"
         >
           {/* Decorative element - Strictly contained */}
           <div className="absolute -top-10 right-0 w-32 h-32 bg-amber-400/5 rounded-full blur-3xl"></div>
@@ -34,18 +34,18 @@ export const ContactForm = ({ contactForm, contactSubmitting, handleContactSubmi
               <div className="space-y-3">
                 <label className="block text-[11px] font-black text-amber-600 uppercase tracking-[0.2em] ml-1">Full Name</label>
                 <input 
-                  type="text" name="name" placeholder="John Doe"
+                  type="text" name="name" placeholder="Enter your name"
                   value={contactForm.values.name} onChange={contactForm.handleChange} 
-                  className="w-full bg-[#faf9f6] border-2 border-black rounded-2xl px-8 min-h-[72px] text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all font-medium placeholder:text-gray-400" 
+                  className="w-full bg-[#faf9f6] border-2 border-black rounded-2xl px-4 md:px-8 min-h-[72px] text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all font-medium placeholder:text-gray-400" 
                 />
                 {contactForm.errors.name && <p className="text-red-500 text-xs font-bold mt-1 ml-1">{contactForm.errors.name}</p>}
               </div>
               <div className="space-y-3">
                 <label className="block text-[11px] font-black text-amber-600 uppercase tracking-[0.2em] ml-1">Phone Number</label>
                 <input 
-                  type="tel" name="phone" placeholder="10-digit number"
+                  type="tel" name="phone" placeholder="Enter your mobile number"
                   value={contactForm.values.phone} onChange={contactForm.handleChange} 
-                  className="w-full bg-[#faf9f6] border-2 border-black rounded-2xl px-8 min-h-[72px] text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all font-medium placeholder:text-gray-400" 
+                  className="w-full bg-[#faf9f6] border-2 border-black rounded-2xl px-4 md:px-8 min-h-[72px] text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all font-medium placeholder:text-gray-400" 
                 />
                 {contactForm.errors.phone && <p className="text-red-500 text-xs font-bold mt-1 ml-1">{contactForm.errors.phone}</p>}
               </div>
@@ -53,9 +53,9 @@ export const ContactForm = ({ contactForm, contactSubmitting, handleContactSubmi
             <div className="space-y-3">
               <label className="block text-[11px] font-black text-amber-600 uppercase tracking-[0.2em] ml-1">Email Address</label>
               <input 
-                type="email" name="email" placeholder="hello@example.com"
+                type="email" name="email" placeholder="Enter your email"
                 value={contactForm.values.email} onChange={contactForm.handleChange} 
-                className="w-full bg-[#faf9f6] border-2 border-black rounded-2xl px-8 min-h-[72px] text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all font-medium placeholder:text-gray-400" 
+                className="w-full bg-[#faf9f6] border-2 border-black rounded-2xl px-4 md:px-8 min-h-[72px] text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all font-medium placeholder:text-gray-400" 
               />
               {contactForm.errors.email && <p className="text-red-500 text-xs font-bold mt-1 ml-1">{contactForm.errors.email}</p>}
             </div>
@@ -64,7 +64,7 @@ export const ContactForm = ({ contactForm, contactSubmitting, handleContactSubmi
               <textarea 
                 name="message" rows="5" placeholder="Tell us how we can help..."
                 value={contactForm.values.message} onChange={contactForm.handleChange} 
-                className="w-full bg-[#faf9f6] border-2 border-black rounded-2xl px-8 py-6 text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all resize-none min-h-[180px] font-medium placeholder:text-gray-400" 
+                className="w-full bg-[#faf9f6] border-2 border-black rounded-2xl px-4 md:px-8 py-4 md:py-6 text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all resize-none min-h-[180px] font-medium placeholder:text-gray-400" 
               />
               {contactForm.errors.message && <p className="text-red-500 text-xs font-bold mt-1 ml-1">{contactForm.errors.message}</p>}
             </div>
@@ -136,7 +136,7 @@ export const OrderModal = React.memo(({ isOpen, onClose, onSubmit, formData, err
                 <h3 className="text-lg md:text-4xl font-black text-slate-900 tracking-tighter font-heading leading-tight">
                   Book an <span className="text-amber-500">Event</span>
                 </h3>
-                <p className="text-slate-500 text-[8px] md:text-sm font-bold uppercase tracking-widest">Premium Culinary Inquiry</p>
+                <p className="text-slate-500 text-[8px] md:text-sm font-bold uppercase tracking-widest">Booking Inquiry</p>
               </div>
               <button 
                 onClick={onClose} 
@@ -155,7 +155,7 @@ export const OrderModal = React.memo(({ isOpen, onClose, onSubmit, formData, err
                   <div className="space-y-1 md:space-y-2">
                     <label className="block text-[9px] md:text-xs font-black text-amber-600 uppercase tracking-widest ml-1">Full Name</label>
                     <input
-                      type="text" name="name" placeholder="John Doe"
+                      type="text" name="name" placeholder="Enter your name"
                       value={formData.values.name} onChange={formData.handleChange}
                       className="w-full bg-[#faf9f6] border border-gray-200 rounded-xl md:rounded-2xl px-4 md:px-5 min-h-[40px] md:min-h-[56px] text-xs md:text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all placeholder:text-gray-400 font-medium"
                     />
@@ -165,7 +165,7 @@ export const OrderModal = React.memo(({ isOpen, onClose, onSubmit, formData, err
                   <div className="space-y-1 md:space-y-2">
                     <label className="block text-[9px] md:text-xs font-black text-amber-600 uppercase tracking-widest ml-1">Phone Number</label>
                     <input
-                      type="tel" name="phone" placeholder="10-digit mobile"
+                      type="tel" name="phone" placeholder="Enter your mobile number"
                       value={formData.values.phone} onChange={formData.handleChange}
                       className="w-full bg-[#faf9f6] border border-gray-200 rounded-xl md:rounded-2xl px-4 md:px-5 min-h-[40px] md:min-h-[56px] text-xs md:text-base text-[#1a1a1a] focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/5 transition-all placeholder:text-gray-400 font-medium"
                     />

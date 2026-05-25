@@ -33,6 +33,7 @@ export const useAdvancedRateLimiter = (key) => {
           setIsCooldown(false);
           setCooldownTimeLeft(0);
           localStorage.removeItem(key + '_cooldown');
+          localStorage.removeItem(key + '_clicks'); // Reset click tracking when block ends
         }
       } else {
         setIsCooldown(false);
@@ -55,25 +56,22 @@ export const useAdvancedRateLimiter = (key) => {
     let clicks = stored ? JSON.parse(stored) : [];
     const now = Date.now();
     
-    // Clean up clicks older than 5 minutes (300,000 ms)
-    clicks = clicks.filter(ts => now - ts < 5 * 60 * 1000);
+    // Clean up clicks older than 1 minute (60,000 ms)
+    clicks = clicks.filter(ts => now - ts < 60 * 1000);
     
     // Add current click
     clicks.push(now);
     localStorage.setItem(key + '_clicks', JSON.stringify(clicks));
 
     // Evaluate Limits
-    // Primary limit: 15 clicks per minute
-    const clicksLast1Min = clicks.filter(ts => now - ts < 60 * 1000).length;
-    // Secondary limit: 2 clicks per 5-minute window
-    const clicksLast5Min = clicks.length;
-
-    if (clicksLast1Min > 15 || clicksLast5Min > 2) {
-      // Trigger 10-minute cooldown
-      const endsAt = now + 10 * 60 * 1000;
+    // Primary limit: Trigger block if user exceeds 100 clicks in the rolling 1-minute window
+    if (clicks.length > 100) {
+      // Trigger exactly 1-minute cooldown (60,000 ms)
+      const endsAt = now + 60 * 1000;
       localStorage.setItem(key + '_cooldown', endsAt.toString());
+      localStorage.removeItem(key + '_clicks'); // Clear current click counts immediately
       setIsCooldown(true);
-      setCooldownTimeLeft(10 * 60);
+      setCooldownTimeLeft(60);
       return { allowed: false, triggeredCooldown: true };
     }
 

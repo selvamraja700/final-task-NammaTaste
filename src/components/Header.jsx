@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { navLinks } from '../data';
-import { LOGO_URL, MARQUEE_MESSAGES } from '../utils/helpers';
+import { LOGO_URL, MARQUEE_MESSAGES, DispalyTestimonials } from '../utils/helpers';
 import { useMarquee } from '../utils/hooks';
 import PopupMessage from './PopupMessage';
 
@@ -50,9 +50,14 @@ const NavLink = ({ link, onClick }) => {
 // ─── Header Component ─────────────────────────────────────────────────────────
 const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
   const { index: marqueeIndex, direction: marqueeDirection } = useMarquee(MARQUEE_MESSAGES, 5000);
-  const [scrolled, setScrolled]             = useState(false);
-  const [hamburgerGlow, setHamburgerGlow]   = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+  const [hamburgerGlow, setHamburgerGlow] = useState(true);
   const [bookButtonGlow, setBookButtonGlow] = useState(false);
+
+  const showReviews = DispalyTestimonials === true || new Date() >= new Date('2026-06-01T00:00:00');
+  const filteredNavLinks = showReviews 
+    ? navLinks 
+    : navLinks.filter(link => link.name !== 'Reviews');
 
   // ─── Scroll State ───
   useEffect(() => {
@@ -77,14 +82,14 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
   useEffect(() => {
     if (mobileMenuOpen) {
       const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.overflow   = 'hidden';
+      document.body.style.overflow = 'hidden';
       document.body.style.paddingRight = scrollBarWidth > 0 ? `${scrollBarWidth}px` : '';
     } else {
-      document.body.style.overflow     = '';
+      document.body.style.overflow = '';
       document.body.style.paddingRight = '';
     }
     return () => {
-      document.body.style.overflow     = '';
+      document.body.style.overflow = '';
       document.body.style.paddingRight = '';
     };
   }, [mobileMenuOpen]);
@@ -92,7 +97,7 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
   // ─── Stable toggle handler ──────────────────────────────────────────────────
   // Uses functional updater to prevent stale closure state on rapid clicks.
   const handleHamburgerToggle = () => setMobileMenuOpen(prev => !prev);
-  const handleMenuClose       = () => setMobileMenuOpen(false);
+  const handleMenuClose = () => setMobileMenuOpen(false);
 
   return (
     <>
@@ -119,16 +124,26 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
             `}
           style={{
             boxShadow: scrolled ? '0 10px 40px -10px rgba(0,0,0,0.8)' : 'none',
-            backdropFilter:       'blur(12px)',
+            backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)',
           }}
         >
           {/* Logo */}
           <a href="#home" className="flex items-center gap-3 md:gap-4 active:scale-95 transition-transform group">
+<<<<<<< HEAD
               <img
                 src={LOGO_URL}
                 alt="Namma Taste Logo"
                 className="h-10 w-10 md:h-14 md:w-14 lg:h-16 lg:w-16 object-cover"
+=======
+            <div
+              className="relative shrink-0 overflow-hidden rounded-full bg-black p-0.5 md:p-1 flex items-center justify-center transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.7)] border border-white/10"
+            >
+              <img
+                src={LOGO_URL}
+                alt="Namma Taste Logo"
+                className="h-10 w-10 md:h-14 md:w-14 lg:h-16 lg:w-16 rounded-full object-cover bg-black"
+>>>>>>> f7554b6
                 loading="eager"
               />
 
@@ -141,7 +156,7 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
 
           {/* Desktop Navigation Links */}
           <div className="hidden lg:flex gap-10 items-center h-full">
-            {navLinks.map(link => (
+            {filteredNavLinks.map(link => (
               <NavLink key={link.id} link={link} />
             ))}
           </div>
@@ -178,7 +193,7 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
         </nav>
 
         {/* ── High-End Bottom Gradient separator (1px fine gold accent line) ── */}
-        <div 
+        <div
           className="w-full h-[1px] relative opacity-90"
           style={{
             background: 'linear-gradient(90deg, rgba(251,191,36,0) 0%, rgba(251,191,36,0.2) 20%, rgba(251,191,36,0.5) 50%, rgba(251,191,36,0.2) 80%, rgba(251,191,36,0) 100%)',
@@ -225,7 +240,7 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 320 }}
-              className="relative w-[85vw] max-w-sm h-full bg-[#0a0a0a] border-l border-white/10 flex flex-col"
+              className="relative w-[45vw] h-full bg-[#0a0a0a] border-l border-white/10 flex flex-col"
               style={{ willChange: 'transform' }}
               onClick={(e) => e.stopPropagation()}
             >
@@ -243,7 +258,7 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
               {/* Nav Links — top-aligned, no justify-center */}
               <nav className="flex flex-col flex-1 px-4 pt-4 pb-8 overflow-y-auto" aria-label="Mobile navigation">
                 <ul className="flex flex-col gap-1">
-                  {navLinks.map(link => (
+                  {filteredNavLinks.map(link => (
                     <li key={link.id}>
                       <a
                         href={link.href}
@@ -254,7 +269,7 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
                             document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
                           }, 150);
                         }}
-                        className="flex items-center w-full min-h-[52px] px-4 rounded-xl text-white/80 hover:text-amber-400 text-lg font-semibold tracking-tight transition-all hover:bg-white/5 active:bg-white/10 active:scale-[0.98]"
+                        className="flex items-center w-full min-h-[52px] px-4 rounded-xl text-white/80 hover:text-amber-400 text-sm sm:text-base font-semibold tracking-tight transition-all hover:bg-white/5 active:bg-white/10 active:scale-[0.98]"
                       >
                         {link.name}
                       </a>
@@ -274,7 +289,7 @@ const Header = ({ mobileMenuOpen, setMobileMenuOpen, openInquiry }) => {
                   className={`
                     w-full min-h-[48px] rounded-xl 
                     bg-gradient-to-r from-amber-400 to-orange-500 
-                    text-black font-black text-sm tracking-wide
+                    text-black font-black text-[10px] sm:text-xs tracking-wider
                     border border-amber-500/30
                     transition-all active:scale-[0.97]
                     ${bookButtonGlow ? 'animate-interaction-glow' : ''}

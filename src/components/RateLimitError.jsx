@@ -25,9 +25,9 @@ const RateLimitError = ({ timeLeft }) => {
           <FaShieldAlt className="text-4xl text-red-500" />
         </div>
         
-        <h2 className="text-2xl md:text-3xl font-heading font-bold text-white mb-3">Rate Limit Exceeded</h2>
+        <h2 className="text-2xl md:text-3xl font-heading font-bold text-white mb-3">Too Many Clicks!</h2>
         <p className="text-gray-400 mb-8 leading-relaxed text-sm md:text-base">
-          We've detected an unusually high number of requests. To protect our systems, your booking actions have been temporarily paused.
+          You have clicked too many times. Please wait for 1 minute before trying again.
         </p>
         
         <div className="w-full bg-black/50 border border-white/5 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-center gap-4">
