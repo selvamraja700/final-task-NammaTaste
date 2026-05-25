@@ -38,3 +38,11 @@ export const smartBack = (fallbackAction) => {
     if (fallbackAction) fallbackAction();
   }
 };
+
+// ─── Reviews Visibility Configuration ────────────────────────────────────────
+// Set to true to force show the reviews section right now.
+// Set to false to hide the reviews section until June 1, 2026.
+export const DispalyTestimonials = true;
+
+// Alias to prevent typos
+export const DisplayTestimonials = DispalyTestimonials;
